@@ -1,0 +1,8 @@
+.vscode
+.idea
+.DS_Store
+/target
+*.spkg
+/sink-files
+/build
+/dist

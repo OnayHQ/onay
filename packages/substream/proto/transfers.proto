@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package eth.token.transfers.v1;
+
+message Transfers {
+  repeated Transfer transfers = 1;
+}
+
+message Transfer {
+  enum Schema {
+    erc20 = 0;
+  }
+
+  // Schema is the string representation of one of the enum defined in Schema. We use it as a String
+  // here because Rust code uses a `u32` for its representation but it's nicer for the file format
+  // to have the type as a string.
+  string schema = 1;
+
+  // The transaction hash that generated that transfer.
+  string trx_hash = 2;
+
+  // The index of the log within the transaction's receipts of the block.
+  uint64 log_index = 3;
+
+  // The person that received the transfer, might not be the same as the one that did initiated the
+  // transaction.
+  string from = 4;
+
+  // The person that received the transfer.
+  string to = 5;
+
+  // How many token were transferred in this transfer, will always be 1 in the case of ERC721.
+  string quantity = 6;
+
+  // Operator is the "sender" of the actual transaction that initiated the transfer, it's equal to
+  // `msg.sender` within the smart contract. This will be different than `from` in case of `Approval`
+  // for example. Only available if `schema = ERC1155`, for `ERC20` and `ERC721`, this will be the empty
+  // string "".
+  string operator = 7;
+}
