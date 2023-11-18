@@ -194,6 +194,7 @@ We would like to express our gratitude to the following resources that have been
 * [Scroll Docs](https://docs.scroll.io/en/getting-started/overview/)
 * [Base Docs](https://docs.base.org/)
 * [Arbitrum Docs](https://docs.arbitrum.io/)
+* [Cello Docs](https://docs.celo.org/)
 
 <!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
 
