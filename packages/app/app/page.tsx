@@ -30,8 +30,8 @@ export default function Home() {
           <div className="max-w-xs">
             <SafeIcon />
             <p className="my-3">
-              Get your sleep back, In case of security breach, we revoke
-              permission and secure your assets.
+              In case of security breach, we revoke permission and secure your
+              assets.
             </p>
           </div>
         </div>
