@@ -13,13 +13,10 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities: 
-        - SpendersByAddress
         - IgnoreToken
         - Token
-        - Accounts
-        - SpendersByToken
-        - AllowancesBySpenders
-        - Spenders
+        - Account
+        - Spender
       abis:
         - name: ERC20
           file: ./abis/ERC20.json
