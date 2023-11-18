@@ -5,6 +5,7 @@ pub struct Transfers {
     #[prost(message, repeated, tag="1")]
     pub transfers: ::prost::alloc::vec::Vec<Transfer>,
 }
+#[derive(::serde::Serialize)]
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Transfer {
@@ -29,15 +30,10 @@ pub struct Transfer {
     /// How many token were transferred in this transfer, will always be 1 in the case of ERC721.
     #[prost(string, tag="6")]
     pub quantity: ::prost::alloc::string::String,
-    /// Operator is the "sender" of the actual transaction that initiated the transfer, it's equal to
-    /// `msg.sender` within the smart contract. This will be different than `from` in case of `Approval`
-    /// for example. Only available if `schema = ERC1155`, for `ERC20` and `ERC721`, this will be the empty
-    /// string "".
-    #[prost(string, tag="7")]
-    pub operator: ::prost::alloc::string::String,
 }
 /// Nested message and enum types in `Transfer`.
 pub mod transfer {
+    #[derive(::serde::Serialize)]
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
     pub enum Schema {

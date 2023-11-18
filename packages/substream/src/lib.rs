@@ -70,8 +70,6 @@ fn new_erc20_transfer(hash: &[u8], log_index: u32, event: ERC20TransferEvent) ->
         quantity: event.value.to_string(),
         trx_hash: Hex(hash).to_string(),
         log_index: log_index as u64,
-
-        operator: "".to_string(),
     }
 }
 

@@ -31,10 +31,4 @@ message Transfer {
 
   // How many token were transferred in this transfer, will always be 1 in the case of ERC721.
   string quantity = 6;
-
-  // Operator is the "sender" of the actual transaction that initiated the transfer, it's equal to
-  // `msg.sender` within the smart contract. This will be different than `from` in case of `Approval`
-  // for example. Only available if `schema = ERC1155`, for `ERC20` and `ERC721`, this will be the empty
-  // string "".
-  string operator = 7;
 }
