@@ -9,6 +9,7 @@ imports:
 protobuf:
   files:
     - transfers.proto
+    - approvals.proto
   importPaths:
     - ./proto
 

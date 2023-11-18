@@ -6,12 +6,16 @@ use pb::transfers::transfer::Schema;
 use pb::transfers::Transfer;
 use pb::transfers::Transfers;
 
+use pb::approval::Schema;
+use pb::approvals::Approval;
+use pb::approvals::Approvals;
+
 use substreams::Hex;
 use substreams_ethereum::pb::eth::v2 as eth;
 use substreams_ethereum::Event;
 
 use abi::erc20::events::Transfer as ERC20TransferEvent;
-//use abi::erc20::events::Approval as ERC20ApprovalEvent;
+use abi::erc20::events::Approve as ERC20ApproveEvent;
 
 substreams_ethereum::init!();
 
@@ -22,14 +26,6 @@ fn map_transfers(blk: eth::Block) -> Result<Transfers, substreams::errors::Error
         transfers: get_transfers(&blk).collect(),
     })
 }
-
-// /// Extracts approval events from the contract(s)
-// #[substreams::handlers::map]
-// fn map_approvals(blk: eth::Block) -> Result<Approvals, substreams::errors::Error> {
-//     Ok(Approvals {
-//         approvals: get_approvals(&blk).collect(),
-//     })
-// }
 
 /// Extracts transfers events from the contract(s)
 #[substreams::handlers::map]
@@ -57,6 +53,11 @@ fn get_transfers<'a>(blk: &'a eth::Block) -> impl Iterator<Item = Transfer> + 'a
             if let Some(event) = ERC20TransferEvent::match_and_decode(log) {
                 return vec![new_erc20_transfer(hash, log.block_index, event)];
             }
+
+            if let Some(event) = ERC20ApproveEvent::match_and_decode(log) {
+              return vec![new_erc20_approve(hash, log.block_index, event, Hex(&event.log.).to_string())];
+          }
+
             vec![]
         })
     })
@@ -71,6 +72,18 @@ fn new_erc20_transfer(hash: &[u8], log_index: u32, event: ERC20TransferEvent) ->
         trx_hash: Hex(hash).to_string(),
         log_index: log_index as u64,
     }
+}
+
+fn new_erc20_approve(hash: &[u8], log_index: u32, event: ERC20ApproveEvent, tokenAddress: String) -> Approve {
+  Approve {
+      schema: schema_to_string(Schema::Erc20),
+      spender: Hex(&event.spender).to_string(),
+      token: tokenAddress,
+      to: Hex(&event.to).to_string(),
+      quantity: event.value.to_string(),
+      trx_hash: Hex(hash).to_string(),
+      log_index: log_index as u64,
+  }
 }
 
 fn schema_to_string(schema: Schema) -> String {
