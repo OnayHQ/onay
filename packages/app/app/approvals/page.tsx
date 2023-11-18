@@ -153,7 +153,7 @@ const ChainGroup = ({
       safeAddress: address,
     });
 
-    const isEnabled = await safeSdk.isModuleEnabled(MODULE_ADDRESS);
+    const isEnabled = await safeSdk.isModuleEnabled(moduleAddressMap[chainId]);
     console.log(address, isEnabled);
     setIsEnabledModule(isEnabled);
   };
@@ -195,7 +195,7 @@ const ChainGroup = ({
     <div className="mt-12 space-y-6">
       <div className="rounded-lg w-full">
         <div className="flex items-center justify-between">
-          <div className="flex space-x-2 items-center">
+          <div className="flex space-x-3 items-center">
             <Image
               width={32}
               height={32}
@@ -204,59 +204,72 @@ const ChainGroup = ({
               className="rounded-full w-10 h-10"
             />
             <p className="text-xl font-medium">{name}</p>
+            {isEnabledModule ? (
+              <p className="text-blue-500">Secured</p>
+            ) : (
+              <p className="text-red-400">Not secured</p>
+            )}
           </div>
           <div className="flex space-x-4">
-            <Select
-              onValueChange={onSelectSafeChange}
-              defaultValue={selectedSafeAddress}
-            >
-              <SelectTrigger className="w-48">
-                <SelectValue
-                  placeholder={
-                    selectedSafeAddress
-                      ? addressShortner(selectedSafeAddress)
-                      : "Select Safe"
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent className=" bg-white">
-                {safesList &&
-                  safesList.length > 0 &&
-                  safesList.map(address => (
-                    <SelectItem key={address} value={address}>
-                      {addressShortner(address)}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            <button
-              onClick={isEnabledModule ? disableModule : enableModule}
-              className="py-2 px-4 hover:bg-blue-700 bg-blue-800 text-white rounded-full flex items-center space-x-2"
-            >
-              <SoapIcon />
-              {connectedChainId !== chainId ? (
-                <p>Connect to {name}</p>
-              ) : selectedSafeAddress ? (
-                isEnabledModule ? (
-                  <p>Disable secure approvals on {name}</p>
-                ) : (
-                  <p>Secure your approvals on {name}</p>
-                )
-              ) : (
-                <p>Select Safe on {name}</p>
-              )}
-            </button>
+            {safesList && safesList?.length > 0 ? (
+              <>
+                <Select
+                  onValueChange={onSelectSafeChange}
+                  defaultValue={selectedSafeAddress}
+                >
+                  <SelectTrigger className="w-48">
+                    <SelectValue
+                      placeholder={
+                        selectedSafeAddress
+                          ? addressShortner(selectedSafeAddress)
+                          : "Select Safe"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent className=" bg-white">
+                    {safesList &&
+                      safesList.length > 0 &&
+                      safesList.map((address) => (
+                        <SelectItem key={address} value={address}>
+                          {addressShortner(address)}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <button
+                  onClick={isEnabledModule ? disableModule : enableModule}
+                  className="py-2 px-4 hover:bg-blue-700 bg-blue-800 text-white rounded-full flex items-center space-x-2"
+                >
+                  <SoapIcon />
+                  {connectedChainId !== chainId ? (
+                    <p>Connect to {name}</p>
+                  ) : selectedSafeAddress ? (
+                    isEnabledModule ? (
+                      <p>Disable secured approvals</p>
+                    ) : (
+                      <p>Secure approvals</p>
+                    )
+                  ) : (
+                    <p>Select Safe</p>
+                  )}
+                </button>
+              </>
+            ) : (
+              <p>No Safe deployed in {name}.</p>
+            )}
           </div>
         </div>
       </div>
-      {selectedSafeAddress ? (
-        <div className="space-y-2">
-          <TokenApprovalsTable />
-          <TokenApprovalsTable />
-        </div>
-      ) : (
-        <p>Select Safe on {name}.</p>
-      )}
+      {safesList && safesList?.length ? (
+        selectedSafeAddress ? (
+          <div className="space-y-2">
+            <TokenApprovalsTable />
+            <TokenApprovalsTable />
+          </div>
+        ) : (
+          <p>Select Safe on {name}.</p>
+        )
+      ) : null}
     </div>
   );
 };
