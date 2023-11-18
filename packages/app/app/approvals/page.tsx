@@ -1,7 +1,6 @@
 "use client";
 
 import { addressShortner } from "@/utils";
-import { TokenApprovalsTable } from "@/components/TokenApprovalsTable";
 import { ApprovalsListIcon } from "@/components/icons/ApprovalsListIcon";
 import Safe from "@safe-global/protocol-kit";
 import {
@@ -13,6 +12,7 @@ import { ethers } from "ethers";
 import { EthersAdapter } from "@safe-global/protocol-kit";
 import { OwnerResponse } from "@safe-global/api-kit";
 import SafeApiKit from "@safe-global/api-kit";
+import { request } from "graphql-request";
 import {
   Select,
   SelectContent,
@@ -22,6 +22,13 @@ import {
 } from "../../components/Select";
 import Image from "next/image";
 import { SoapIcon } from "../../components/icons/SoapIcon";
+import {
+  NetworkQueryName,
+  getAllowancesQuery,
+  queryUrl,
+} from "@/app/approvals/query";
+import { chains } from "@/app/approvals/chains";
+import { TokenApprovalsTable } from "@/components/TokenApprovalsTable";
 
 const moduleAddressMap: Record<number, string> = {
   42161: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
@@ -65,16 +72,10 @@ export default function ApprovalsPage() {
             <h3 className="text-xl md:text-3xl font-bold">Approvals</h3>
           </div>
           <div className="space-y-24">
-            {[
-              { name: "Arbitrum", chainId: 42161, logo: "arbitrum" },
-              { name: "Base", chainId: 8453, logo: "base" },
-              { name: "Celo", chainId: 42220, logo: "celo" },
-              { name: "Gnosis Chain", chainId: 100, logo: "gnosis" },
-              { name: "Polygon zkEVM", chainId: 1101, logo: "polygon-zk-evm" },
-              //{ name: "Scroll", chainId: 534352 },
-            ].map(({ name, chainId, logo }) => (
+            {chains.map(({ name, queryName, chainId, logo }) => (
               <ChainGroup
                 key={chainId}
+                queryName={queryName}
                 chainId={chainId}
                 name={name}
                 logo={logo}
@@ -91,10 +92,12 @@ export default function ApprovalsPage() {
 
 const ChainGroup = ({
   chainId,
+  queryName,
   name,
   logo,
 }: {
   chainId: number;
+  queryName: NetworkQueryName;
   name: string;
   logo: string;
 }) => {
@@ -105,6 +108,20 @@ const ChainGroup = ({
   const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
   const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
   const [safeSDK, setSafeSDK] = useState<Safe>();
+
+  const getAllowances = useCallback(async () => {
+    const result = await request(queryUrl(queryName), getAllowancesQuery, {
+      address: selectedSafeAddress,
+    });
+    console.log("queryUrl:", queryUrl(queryName));
+    console.log("result:", result);
+  }, [queryName, selectedSafeAddress]);
+
+  useEffect(() => {
+    if (selectedSafeAddress) {
+      getAllowances();
+    }
+  }, [getAllowances, selectedSafeAddress]);
 
   const createSafeSDK = useCallback(async () => {
     if (!signer || !selectedSafeAddress) return;
@@ -229,7 +246,7 @@ const ChainGroup = ({
                   <SelectContent className=" bg-white">
                     {safesList &&
                       safesList.length > 0 &&
-                      safesList.map((address) => (
+                      safesList.map(address => (
                         <SelectItem key={address} value={address}>
                           {addressShortner(address)}
                         </SelectItem>
@@ -263,7 +280,6 @@ const ChainGroup = ({
       {safesList && safesList?.length ? (
         selectedSafeAddress ? (
           <div className="space-y-2">
-            <TokenApprovalsTable />
             <TokenApprovalsTable />
           </div>
         ) : (
