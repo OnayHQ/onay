@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/orgs/OnayHQ/repositories">
-    <img src="https://imgur.com/a/ww8ukfY">
+    <img src="https://i.imgur.com/j3NUDl1.png">
   </a>
  <h3 align="center">  </h3>
 
@@ -172,11 +172,11 @@ Project Link: [Onay Github](https://github.com/orgs/OnayHQ/repositories)
 ### Onay Team
 
 
-Nelson Galdeman - [@neeel_eth](https://twitter.com/neeel_eth)
+Nelson Galdeman - [@neeel_eth](https://x.com/neeel_eth)
 <br />
-Diogo - [@diogomartf](https://twitter.com/diogomartf)
+Diogo - [@diogomartf](https://x.com/diogomartf)
 <br />
-Leonardo - [@berteotti_](https://twitter.com/berteotti_)
+Leonardo - [@berteotti_](https://x.com/berteotti_)
 <br />
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -188,13 +188,13 @@ Leonardo - [@berteotti_](https://twitter.com/berteotti_)
 
 We would like to express our gratitude to the following resources that have been invaluable in the development of Onay:
 
-* [Wallet Connect](https://docs.walletconnect.com/)
+* [Wallet Connect Docs](https://docs.walletconnect.com/)
 * [The Graph Docs](https://thegraph.com/docs)
-* [Safe](https://safe.global/docs)
-* [Scroll](https://docs.scroll.io/en/getting-started/overview/)
-* [Arbitrum](https://docs.arbitrum.io/)
-* [Polygon ZKEVM](https://wiki.polygon.technology/docs/zkEVM/develop/)
-* [Base](https://docs.base.org/)
+* [Safe Docs](https://safe.global/docs)
+* [Scroll Docs](https://docs.scroll.io/en/getting-started/overview/)
+* [Arbitrum Docs](https://docs.arbitrum.io/)
+* [Polygon zkEVM Docs](https://wiki.polygon.technology/docs/zkEVM/develop/)
+* [Base Docs](https://docs.base.org/)
 
 <!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
 
