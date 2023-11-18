@@ -1,29 +1,14 @@
 "use client";
 
-import { useWeb3Modal } from "@web3modal/ethers5/react";
+import { createModal } from "@/context/Web3Modal";
+
+createModal();
 
 export default function ConnectButton() {
-  const { open } = useWeb3Modal();
-
   return (
     <>
-      <button
-        onClick={() => {
-          console.log("click modal");
-          open();
-        }}
-      >
-        Open Connect Modal
-      </button>
-      |
-      <button
-        onClick={() => {
-          console.log("click networks modal");
-          open({ view: "Networks" });
-        }}
-      >
-        Open Network Modal
-      </button>
+      <w3m-button />
+      <w3m-network-button />
     </>
   );
 }

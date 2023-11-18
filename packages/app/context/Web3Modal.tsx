@@ -19,8 +19,8 @@ const mainnet = {
 const metadata = {
   name: "Onay",
   description: "Avoid risk with Onay revoking protection",
-  url: "https://mywebsite.com",
-  icons: ["https://avatars.mywebsite.com/"],
+  url: "https://onay.dev",
+  icons: ["https://onay.dev/icon"],
 };
 
 export const createModal = () =>
