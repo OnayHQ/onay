@@ -12,6 +12,8 @@ export function getOrCreateERC20Token(event: ethereum.Event, address: Address): 
   }
 
   token = new Token(addressHex)
+  token.name = "";
+  token.symbol = "";
   let tokenInstance = ERC20.bind(address)
   let tryName = tokenInstance.try_name()
   if (!tryName.reverted) {
