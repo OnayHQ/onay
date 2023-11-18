@@ -74,8 +74,14 @@ Onay means "Approval" in Turkish and took inspiration from the streets of Instan
 
 Onay is proudly supported by the following sponsors:
 
-* [![safe][safe.global]][safe-url]
-* [![TheGraph][thegraph.com]][thegraph-url]
+* [![safe][safe-img]][safe-url]
+* [![WalletConnect][walletconnect-img]][walletconnect-url]
+* [![TheGraph][thegraph-img]][thegraph-url]
+* [![Base][base-img]][base-url]
+* [![Celo][celo-img]][celo-url]
+* [![PolygonZkEVM][polygonzkevm-img]][polygonzkevm-url]
+* [![Arbitrum][arbitrum-img]][arbitrum-url]
+* [![Scroll][scroll-img]][scroll-url]
 
 These powerful tools and frameworks have helped us create a seamless user experience and ensure the scalability and reliability of our platform.
 
@@ -215,7 +221,19 @@ These resources have provided valuable insights, tools, and inspiration througho
 
 <!-- SPONSORS -->
 
-[safe.global]:https://img.shields.io/badge/safe-12ff80?style=for-the-badge&logo=polybase&logoColor=black
-[safe-url]:https://safe.global]:https://img.shields.io/badge/thegraph-000000?style=for-the-badge&logo=TheGraph&logoColor=white
+[safe-url]:https://safe.global
+[safe-img]:https://img.shields.io/badge/safe-12ff80?style=for-the-badge&logo=safe&logoColor=black
 [thegraph-url]:https://thegraph.com
-[thegraph.com]:https://img.shields.io/badge/thegraph-000000?style=for-the-badge&logo=TheGraph&logoColor=white
+[thegraph-img]:https://img.shields.io/badge/thegraph-11112a?style=for-the-badge&logo=TheGraph&logoColor=white
+[walletconnect-url]:https://walletconnect.com/
+[walletconnect-img]:https://img.shields.io/badge/walletConnect-000000?style=for-the-badge&logo=walletconnect&logoColor=white
+[scroll-url]:https://scroll.io/
+[scroll-img]:https://img.shields.io/badge/scroll-ffdbb0?style=for-the-badge&logo=scroll&logoColor=white
+[arbitrum-url]:https://arbitrum.io/
+[arbitrum-img]:https://img.shields.io/badge/arbitrum-162c4f?style=for-the-badge&logo=arbitrum&logoColor=white
+[polygonzkevm-url]:https://polygon.technology/polygon-zkevm
+[polygonzkevm-img]:https://img.shields.io/badge/polygon-6f3cc3?style=for-the-badge&logo=polygon&logoColor=white
+[celo-url]:https://celo.org/
+[celo-img]:https://img.shields.io/badge/celo-fdff52?style=for-the-badge&logo=celo&logoColor=white
+[base-url]:https://base.org/
+[base-img]:https://img.shields.io/badge/base-0e54ff?style=for-the-badge&logo=base&logoColor=white
