@@ -192,9 +192,8 @@ We would like to express our gratitude to the following resources that have been
 * [The Graph Docs](https://thegraph.com/docs)
 * [Safe Docs](https://safe.global/docs)
 * [Scroll Docs](https://docs.scroll.io/en/getting-started/overview/)
-* [Arbitrum Docs](https://docs.arbitrum.io/)
-* [Polygon zkEVM Docs](https://wiki.polygon.technology/docs/zkEVM/develop/)
 * [Base Docs](https://docs.base.org/)
+* [Arbitrum Docs](https://docs.arbitrum.io/)
 
 <!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
 
