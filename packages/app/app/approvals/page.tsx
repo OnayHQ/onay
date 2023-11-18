@@ -1,7 +1,6 @@
 "use client";
 
 import { addressShortner } from "@/utils";
-import { NetworkHeader } from "@/components/NetworkHeader";
 import { TokenApprovalsTable } from "@/components/TokenApprovalsTable";
 import { ApprovalsListIcon } from "@/components/icons/ApprovalsListIcon";
 import Safe from "@safe-global/protocol-kit";
@@ -223,7 +222,7 @@ const ChainGroup = ({
               <SelectContent className=" bg-white">
                 {safesList &&
                   safesList.length > 0 &&
-                  safesList.map((address) => (
+                  safesList.map(address => (
                     <SelectItem key={address} value={address}>
                       {addressShortner(address)}
                     </SelectItem>
