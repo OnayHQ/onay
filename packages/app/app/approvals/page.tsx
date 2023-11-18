@@ -15,7 +15,7 @@ export default function ApprovalsPage() {
         <div>
           <div className="mb-12">
             <h1 className="text-3xl md:text-5xl font-black">
-              {addressShortner(address)}
+              {address && addressShortner(address)}
             </h1>
             <div className="bg-gray-200 h-3 rounded-full relative w-full md:w-[24rem] mt-1">
               <div className="bg-green-500 w-[80%] rounded-full h-3"></div>
