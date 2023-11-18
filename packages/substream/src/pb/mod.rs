@@ -1,8 +1,8 @@
-#[path = "eth.token.transfers.v1.rs"]
+#[path = "eth.token.events.v1.rs"]
 #[allow(dead_code)]
 mod transfers_priv;
 
-pub mod transfers {
+pub mod events {
     use csv::Terminator;
 
     pub use super::transfers_priv::*;

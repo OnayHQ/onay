@@ -4,12 +4,12 @@ package:
   version: v0.4.0
 
 imports:
+  entities: https://github.com/streamingfast/substreams-sink-entity-changes/releases/download/v1.3.0/substreams-sink-entity-changes-v1.3.0.spkg
   sink_files: https://github.com/streamingfast/substreams-sink-files/releases/download/v0.1.0/substreams-sink-files-v0.1.0.spkg
 
 protobuf:
   files:
-    - transfers.proto
-    - approvals.proto
+    - events.proto
   importPaths:
     - ./proto
 
@@ -19,13 +19,20 @@ binaries:
     file: ./target/wasm32-unknown-unknown/release/substreams.wasm
 
 modules:
-  - name: map_transfers
+  - name: map_events
     kind: map
     initialBlock: 0
     inputs:
       - source: sf.ethereum.type.v2.Block
     output:
-      type: proto:eth.token.transfers.v1.Transfers
+      type: proto:eth.token.events.v1.Transfers
+
+  - name: graph_out
+    kind: map
+    inputs:
+      - map: map_events
+    output:
+      type: proto:substreams.entity.v1.EntityChanges # this type can be consumed by Graph Node
 
   - name: jsonl_out
     kind: map

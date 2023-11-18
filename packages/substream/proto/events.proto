@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package eth.token.events.v1;
+
+message Events {
+  repeated Transfer transfers = 1;
+  repeated Approval approvals = 2;
+}
+
+message Approval {
+  // The transaction hash that generated that transfer.
+  string trx_hash = 1;
+
+  // The index of the log within the transaction's receipts of the block.
+  uint64 log_index = 2;
+  
+  string token = 3;
+  string spender = 4;
+  string quantity = 5;
+}
+
+message Transfer {
+  // The transaction hash that generated that transfer.
+  string trx_hash = 1;
+
+  // The index of the log within the transaction's receipts of the block.
+  uint64 log_index = 2;
+
+  // The person that received the transfer, might not be the same as the one that did initiated the
+  // transaction.
+  string from = 3;
+
+  // The person that received the transfer.
+  string to = 4;
+
+  // How many token were transferred in this transfer, will always be 1 in the case of ERC721.
+  string quantity = 5;
+  string token = 6;
+}
