@@ -29,6 +29,7 @@ export const createModal = () =>
     chains: [mainnet],
     projectId,
     defaultChain: mainnet,
+    themeMode: "light",
   });
 
 export function Web3ModalProvider({ children }: PropsWithChildren) {
