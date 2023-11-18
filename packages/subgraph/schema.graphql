@@ -6,12 +6,12 @@ type SubgraphStatus @entity {
 
 type SpendersByAddress @entity {
   id: ID!
-  spenders: [String!]
+  spenders: [String!]!
 }
 
-type Accounts @entity {
+type Account @entity {
   id: ID! #{user}
-  tokens: [SpendersByToken!]
+  tokens: [SpendersByToken!]!
 }
 
 type Token @entity {
@@ -24,12 +24,12 @@ type Token @entity {
 type SpendersByToken @entity {
   id: ID! #{user}{token}
   token: Token!
-  spenders: [AllowancsBySpenders!]
+  spenders: [AllowancesBySpenders!]!
 }
 
 type AllowancesBySpenders @entity {
   id: ID! #{user}{token}{spender}
-  spender: Address!
+  spender: Bytes!
   allowance: BigInt!
 }
 

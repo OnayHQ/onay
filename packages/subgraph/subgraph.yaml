@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: ERC20
-    network: polygon
+    network: matic
     source:
       abi: ERC20
       startBlock: 50074710

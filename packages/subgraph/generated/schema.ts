@@ -122,21 +122,70 @@ export class SpendersByAddress extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get spenders(): Array<string> | null {
+  get spenders(): Array<string> {
     let value = this.get("spenders");
     if (!value || value.kind == ValueKind.NULL) {
-      return null;
+      throw new Error("Cannot return null for a required field.");
     } else {
       return value.toStringArray();
     }
   }
 
-  set spenders(value: Array<string> | null) {
-    if (!value) {
-      this.unset("spenders");
-    } else {
-      this.set("spenders", Value.fromStringArray(<Array<string>>value));
+  set spenders(value: Array<string>) {
+    this.set("spenders", Value.fromStringArray(value));
+  }
+}
+
+export class Account extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Account entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Account must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Account", id.toString(), this);
     }
+  }
+
+  static loadInBlock(id: string): Account | null {
+    return changetype<Account | null>(store.get_in_block("Account", id));
+  }
+
+  static load(id: string): Account | null {
+    return changetype<Account | null>(store.get("Account", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokens(): Array<string> {
+    let value = this.get("tokens");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set tokens(value: Array<string>) {
+    this.set("tokens", Value.fromStringArray(value));
   }
 }
 
@@ -216,6 +265,144 @@ export class Token extends Entity {
 
   set symbol(value: string) {
     this.set("symbol", Value.fromString(value));
+  }
+}
+
+export class SpendersByToken extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save SpendersByToken entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type SpendersByToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("SpendersByToken", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): SpendersByToken | null {
+    return changetype<SpendersByToken | null>(
+      store.get_in_block("SpendersByToken", id)
+    );
+  }
+
+  static load(id: string): SpendersByToken | null {
+    return changetype<SpendersByToken | null>(store.get("SpendersByToken", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get spenders(): Array<string> {
+    let value = this.get("spenders");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set spenders(value: Array<string>) {
+    this.set("spenders", Value.fromStringArray(value));
+  }
+}
+
+export class AllowancesBySpenders extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save AllowancesBySpenders entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type AllowancesBySpenders must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("AllowancesBySpenders", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): AllowancesBySpenders | null {
+    return changetype<AllowancesBySpenders | null>(
+      store.get_in_block("AllowancesBySpenders", id)
+    );
+  }
+
+  static load(id: string): AllowancesBySpenders | null {
+    return changetype<AllowancesBySpenders | null>(
+      store.get("AllowancesBySpenders", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get spender(): Bytes {
+    let value = this.get("spender");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set spender(value: Bytes) {
+    this.set("spender", Value.fromBytes(value));
+  }
+
+  get allowance(): BigInt {
+    let value = this.get("allowance");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set allowance(value: BigInt) {
+    this.set("allowance", Value.fromBigInt(value));
   }
 }
 

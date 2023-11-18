@@ -1,5 +1,5 @@
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts"
-import { Token, SpendersByAddress } from "../generated/schema"
+import { Token, SpendersByAddress, Account, SpendersByToken, AllowancesBySpenders } from "../generated/schema"
 import { ERC20 } from "../generated/ERC20/ERC20"
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
@@ -45,6 +45,61 @@ export function getOrCreateSpenderByAddress(address: Address): SpendersByAddress
   }
 
   spenders = new SpendersByAddress(addressHex);
+  spenders.spenders = [];
   spenders.save();
   return spenders as SpendersByAddress;
+}
+
+export function getOrCreateAccount(address: Address): Account {
+  let addressHex = address.toHexString();
+  let account = Account.load(addressHex);
+  if (account != null) {
+    return account as Account;
+  }
+
+  account = new Account(addressHex);
+  account.tokens = [];
+  account.save();
+  return account as Account;
+}
+
+export function getOrCreateSpendersByToken(id: string, token: string): SpendersByToken {
+  let spenders = SpendersByToken.load(id);
+  if (spenders != null) {
+    return spenders as SpendersByToken;
+  }
+
+  spenders = new SpendersByToken(id);
+  spenders.token = token;
+  spenders.spenders = [];
+  spenders.save();
+  return spenders as SpendersByToken;
+}
+
+export function getOrCreateAllowancesBySpenders(id: string, spender: Address): AllowancesBySpenders {
+  let allowance = AllowancesBySpenders.load(id);
+  if (allowance != null) {
+    return allowance as AllowancesBySpenders;
+  }
+
+  allowance = new AllowancesBySpenders(id);
+  allowance.spender = spender;
+  allowance.allowance = BigInt.fromI32(0);
+  allowance.save();
+  return allowance as AllowancesBySpenders;
+}
+
+export function findSpendersByToken(spendersByTokenArr: string[], token: Address): SpendersByToken | null {
+  for (let i = 0; i < spendersByTokenArr.length; i++) {
+    let spendersByToken = SpendersByToken.load(spendersByTokenArr[i]);
+    if (!spendersByToken) {
+      continue;
+    }
+
+    if (spendersByToken.token == token.toHexString()) {
+      return spendersByToken;
+    }
+  }
+
+  return null;
 }
