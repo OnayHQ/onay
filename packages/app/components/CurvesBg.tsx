@@ -67,8 +67,8 @@ export const CurvesBg = () => (
         y2="663"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_1993_24053"
@@ -78,8 +78,8 @@ export const CurvesBg = () => (
         y2="599"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint2_linear_1993_24053"
@@ -89,8 +89,8 @@ export const CurvesBg = () => (
         y2="543"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint3_linear_1993_24053"
@@ -100,8 +100,8 @@ export const CurvesBg = () => (
         y2="503"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint4_linear_1993_24053"
@@ -111,8 +111,8 @@ export const CurvesBg = () => (
         y2="471"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint5_linear_1993_24053"
@@ -122,8 +122,8 @@ export const CurvesBg = () => (
         y2="439"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint6_linear_1993_24053"
@@ -133,10 +133,10 @@ export const CurvesBg = () => (
         y2="416.03"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="white" />
-        <stop offset="0.333333" stop-color="white" stop-opacity="0" />
-        <stop offset="0.666667" stop-color="white" stop-opacity="0" />
-        <stop offset="1" stop-color="white" />
+        <stop stopColor="white" />
+        <stop offset="0.333333" stopColor="white" stopOpacity="0" />
+        <stop offset="0.666667" stopColor="white" stopOpacity="0" />
+        <stop offset="1" stopColor="white" />
       </linearGradient>
       <linearGradient
         id="paint7_linear_1993_24053"
@@ -146,8 +146,8 @@ export const CurvesBg = () => (
         y2="391"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint8_linear_1993_24053"
@@ -157,8 +157,8 @@ export const CurvesBg = () => (
         y2="359"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint9_linear_1993_24053"
@@ -168,8 +168,8 @@ export const CurvesBg = () => (
         y2="327"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint10_linear_1993_24053"
@@ -179,8 +179,8 @@ export const CurvesBg = () => (
         y2="287"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint11_linear_1993_24053"
@@ -190,8 +190,8 @@ export const CurvesBg = () => (
         y2="231"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#05D5EA" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="#05D5EA" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <linearGradient
         id="paint12_linear_1993_24053"
@@ -201,8 +201,8 @@ export const CurvesBg = () => (
         y2="167"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
     </defs>
   </svg>
