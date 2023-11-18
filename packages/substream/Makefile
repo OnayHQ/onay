@@ -12,7 +12,7 @@ stream_csv: build
 
 .PHONY: stream_jsonl
 stream_jsonl: build
-	substreams run -e $(ENDPOINT) substreams.yaml jsonl_out -s 12292922 -t +10
+	substreams run -e $(ENDPOINT) substreams.yaml graph_out -s 12292922 -t +10
 
 
 .PHONY: protogen

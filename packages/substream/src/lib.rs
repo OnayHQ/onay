@@ -1,8 +1,7 @@
 mod abi;
 mod pb;
 
-use rand::Rng;
-
+use pb::events::SpendersByAddress;
 use pb::sinkfiles::Lines;
 use pb::events::Transfer;
 use pb::events::Events;
@@ -33,31 +32,58 @@ pub fn graph_out(events: Events) -> Result<EntityChanges, substreams::errors::Er
     // hash map of name to a table
     let mut tables = substreams_entity_change::tables::Tables::new();
 
-    for event in events.events.into_iter() {
-      for transfer in event.transfers.into_iter() {
-        let mut rng = rand::thread_rng();
-
-        tables
-          .create_row("Transfer", rng.gen::<u32>().to_string())
-          .set("trxHash", transfer.trx_hash)
-          .set("logIndex", transfer.log_index)
-          .set("from", transfer.from)
-          .set("to", transfer.to)
-          .set("quantity", transfer.quantity)
-          .set("token", transfer.token);
+    for transfer in events.transfers.into_iter() {
+      if (msg.sender == transfer.from) {
+        continue;
       }
 
-      for approval in event.approvals.into_iter() {
-        let mut rng = rand::thread_rng();
+      let mut id = transfer.trx_hash.to_owned();
+      let log_index: String = transfer.log_index.to_string().to_owned();
+      id.push_str(&log_index);
 
-        tables
-          .create_row("Approval", rng.gen::<u32>().to_string())
-          .set("trxHash", approval.trx_hash)
-          .set("logIndex", approval.log_index)
-          .set("spender", approval.spender)
-          .set("quantity", approval.quantity)
-          .set("token", approval.token);
-      }
+      tables
+        .create_row("Transfer", id)
+        .set("trxHash", transfer.trx_hash)
+        .set("logIndex", transfer.log_index)
+        .set("from", transfer.from)
+        .set("to", transfer.to)
+        .set("quantity", transfer.quantity)
+        .set("token", transfer.token);
+
+      //get allowance by userAddress+token+spender
+
+      let mut spenderId = transfer.from.to_owned();
+
+      let token_address: String = transfer.token.to_owned();
+      spenderId.push_str(&token_address);
+
+      let spender_address: String = msg.sender.to_owned();
+      spenderId.push_str(&spender_address);
+      
+      tables.create_row("Spender", spenderId)
+        .set("allowance", currentAllowance - transfer.quantity)
+        .set("spender", msg.sender);
+    }
+
+    for approval in events.approvals.into_iter() {
+      let mut id = approval.trx_hash.to_owned();
+      let log_index: String = approval.log_index.to_string().to_owned();
+      id.push_str(&log_index);
+
+      tables
+        .create_row("Approval", id)
+        .set("trxHash", approval.trx_hash)
+        .set("logIndex", approval.log_index)
+        .set("spender", approval.spender)
+        .set("owner", approval.owner)
+        .set("quantity", approval.quantity)
+        .set("token", approval.token);
+
+      tables
+        .create_row("SpendersByAddress", approval.owner)
+        .set("spenders", approval.spender);
+
+      
     }
 
     Ok(tables.to_entity_changes())
@@ -110,23 +136,29 @@ fn get_approvals<'a>(blk: &'a eth::Block) -> impl Iterator<Item = Approval> + 'a
   })
 }
 
-fn new_erc20_transfer(hash: &[u8], log_index: u32, event: ERC20TransferEvent, tokenAddress: String) -> Transfer {
+fn new_erc20_transfer(hash: &[u8], log_index: u32, event: ERC20TransferEvent, token_address: String) -> Transfer {
     Transfer {
         from: Hex(&event.from).to_string(),
         to: Hex(&event.to).to_string(),
-        token: tokenAddress,
+        token: token_address,
         quantity: event.value.to_string(),
         trx_hash: Hex(hash).to_string(),
         log_index: log_index as u64,
     }
 }
 
-fn new_erc20_approve(hash: &[u8], log_index: u32, event: ERC20ApproveEvent, tokenAddress: String) -> Approval {
+fn new_erc20_approve(hash: &[u8], log_index: u32, event: ERC20ApproveEvent, token_address: String) -> Approval {
   Approval {
       spender: Hex(&event.spender).to_string(),
-      token: tokenAddress,
+      token: token_address,
+      owner: Hex(&event.owner).to_string(),
       quantity: event.value.to_string(),
       trx_hash: Hex(hash).to_string(),
       log_index: log_index as u64,
+  }
+
+  
+  SpendersByAddress {
+
   }
 }

@@ -19,8 +19,10 @@ pub struct Approval {
     #[prost(string, tag="3")]
     pub token: ::prost::alloc::string::String,
     #[prost(string, tag="4")]
-    pub spender: ::prost::alloc::string::String,
+    pub owner: ::prost::alloc::string::String,
     #[prost(string, tag="5")]
+    pub spender: ::prost::alloc::string::String,
+    #[prost(string, tag="6")]
     pub quantity: ::prost::alloc::string::String,
 }
 #[derive(::serde::Serialize)]
@@ -48,20 +50,34 @@ pub struct Transfer {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Contracts {
-    #[prost(message, repeated, tag="1")]
-    pub contracts: ::prost::alloc::vec::Vec<Contract>,
+pub struct Spender {
+    #[prost(uint64, tag="1")]
+    pub allowance: u64,
+    #[prost(string, tag="2")]
+    pub spender: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Contract {
+pub struct Token {
     #[prost(string, tag="1")]
-    pub address: ::prost::alloc::string::String,
-    #[prost(uint64, tag="2")]
-    pub block_number: u64,
+    pub symbol: ::prost::alloc::string::String,
+    #[prost(string, tag="2")]
+    pub name: ::prost::alloc::string::String,
     #[prost(string, tag="3")]
-    pub timestamp: ::prost::alloc::string::String,
-    #[prost(uint64, tag="4")]
-    pub ordinal: u64,
+    pub address: ::prost::alloc::string::String,
+    #[prost(message, repeated, tag="4")]
+    pub spenders: ::prost::alloc::vec::Vec<Spender>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Allowance {
+    #[prost(message, repeated, tag="1")]
+    pub tokens: ::prost::alloc::vec::Vec<Token>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct SpendersByAddress {
+    #[prost(string, repeated, tag="1")]
+    pub spenders: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
 // @@protoc_insertion_point(module)

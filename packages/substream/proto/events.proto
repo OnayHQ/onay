@@ -15,8 +15,9 @@ message Approval {
   uint64 log_index = 2;
   
   string token = 3;
-  string spender = 4;
-  string quantity = 5;
+  string owner = 4;
+  string spender = 5;
+  string quantity = 6;
 }
 
 message Transfer {
@@ -36,4 +37,25 @@ message Transfer {
   // How many token were transferred in this transfer, will always be 1 in the case of ERC721.
   string quantity = 5;
   string token = 6;
+}
+
+message Spender {
+  uint64 allowance = 1;
+  string spender = 2;
+}
+
+message Token {
+  string symbol = 1;
+  string name = 2;
+  string address = 3;
+  repeated Spender spenders = 4;
+}
+
+message Allowance {
+  repeated Token tokens = 1;
+}
+
+message SpendersByAddress {
+  string address = 1;
+  repeated string spenders = 2;
 }
