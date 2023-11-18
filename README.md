@@ -3,7 +3,6 @@
 <div align="center">
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Stargazers][stars-shield]][stars-url]
 
 </div>
 
@@ -77,7 +76,6 @@ Onay is proudly supported by the following sponsors:
 These powerful tools and frameworks have helped us create a seamless user experience and ensure the scalability and reliability of our platform.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- GETTING STARTED   -->
