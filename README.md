@@ -194,8 +194,9 @@ We would like to express our gratitude to the following resources that have been
 * [Gnosis Docs](https://docs.gnosischain.com/)
 * [Scroll Docs](https://docs.scroll.io/en/getting-started/overview/)
 * [Base Docs](https://docs.base.org/)
+* [Polygon zkEVM Docs](https://wiki.polygon.technology/docs/zkevm/)
 * [Arbitrum Docs](https://docs.arbitrum.io/)
-* [Cello Docs](https://docs.celo.org/)
+* [Celo Docs](https://docs.celo.org/)
 
 <!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
 
