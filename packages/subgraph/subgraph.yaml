@@ -19,6 +19,7 @@ dataSources:
         - Accounts
         - SpendersByToken
         - AllowancesBySpenders
+        - Spenders
       abis:
         - name: ERC20
           file: ./abis/ERC20.json

@@ -4,14 +4,16 @@ type SubgraphStatus @entity {
   lastSnapshotBlock: BigInt!
 }
 
-type SpendersByAddress @entity {
-  id: ID!
-  spenders: [String!]!
+type Spender @entity { #links to spendersbyaddress
+  id: ID! #{spender}{user}
+  account: Account!
+  spender: Bytes!
 }
 
 type Account @entity {
   id: ID! #{user}
-  tokens: [SpendersByToken!]!
+  allowances: [Allowance!]! @derivedFrom(field: "account")
+  spenders: [Spender!]! @derivedFrom(field: "account")
 }
 
 type Token @entity {
@@ -21,14 +23,10 @@ type Token @entity {
   symbol: String!
 }
 
-type SpendersByToken @entity {
-  id: ID! #{user}{token}
-  token: Token!
-  spenders: [AllowancesBySpenders!]!
-}
-
-type AllowancesBySpenders @entity {
+type Allowance @entity {
   id: ID! #{user}{token}{spender}
+  account: Account!
+  token: Bytes!
   spender: Bytes!
   allowance: BigInt!
 }

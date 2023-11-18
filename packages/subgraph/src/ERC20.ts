@@ -1,21 +1,18 @@
-import { BigInt, log } from "@graphprotocol/graph-ts"
-import { IgnoredToken, SpendersByAddress, SpendersByToken } from "../generated/schema"
-import { Transfer, Approval } from "../generated/ERC20/ERC20"
+import { BigInt, log, store, Address } from "@graphprotocol/graph-ts"
+import { IgnoredToken } from "../generated/schema"
+import { Transfer, Approval, ERC20 } from "../generated/ERC20/ERC20"
 
 import {
   getOrCreateAccount,
   getOrCreateERC20Token,
-  getOrCreateSpenderByAddress,
-  findSpendersByToken,
-  getOrCreateSpendersByToken,
-  getOrCreateAllowancesBySpenders
+  getOrCreateAllowance,
+  getOrCreateSpender
 } from "./common"
 
 export function handleApproval(event: Approval): void {
   // Check if the token address is on the ignore list
   let ignored = IgnoredToken.load(event.address.toHexString());
   if (ignored != null) {
-    log.debug("ignored token {}", [event.address.toHexString()]);
     return;
   }
 
@@ -29,81 +26,65 @@ export function handleApproval(event: Approval): void {
     ignored.blockNumber = event.block.number;
     ignored.timestamp = event.block.timestamp;
     ignored.save();
-
-    log.debug("new ignored token {}", [event.address.toHexString()]);
     
     return
   }
 
-  let accountSpenders = getOrCreateSpenderByAddress(event.address);
-  let spenders: string[] = [];
-  if (!accountSpenders.spenders) {
-    accountSpenders.spenders = spenders;
-  }
-  
-  let isSpenderIncluded: bool;
-  for (let i = 0; i < accountSpenders.spenders.length; i++) {
-    if (accountSpenders.spenders[i] == event.params.spender.toHexString()) {
-      isSpenderIncluded = true
-      break;
-    }
-  }
+  getOrCreateSpender(event.params.spender, event.params.owner);
+  getOrCreateAccount(event.params.owner);
 
-  if (!isSpenderIncluded) {
-    accountSpenders.spenders.push(event.params.spender.toHexString());
-    accountSpenders.save();
+  let allowance = getOrCreateAllowance(event.params.owner, event.address, event.params.spender);
+  allowance.allowance = event.params.value;
+  allowance.save();
+
+  if (allowance.allowance.equals(BigInt.fromI32(0))) {
+    store.remove("Allowance", allowance.id);
   }
-
-  let account = getOrCreateAccount(event.address);
-  
-  let spendersByToken: string[] = [];
-  if (!account.tokens){
-    account.tokens = spendersByToken;
-  }
-
-  let spendersByTokenFound = findSpendersByToken(account.tokens, event.address);
-  if (!spendersByTokenFound) {
-    let spendersByTokenId: string = event.params.owner.concat(event.address).toString();
-    spendersByTokenFound = getOrCreateSpendersByToken(spendersByTokenId, event.address.toHexString());
-  }
-
-  let allowancesBySpendersId: string = event.params.owner.concat(event.address).concat(event.params.spender).toString()
-  let allowancesBySpenders = getOrCreateAllowancesBySpenders(allowancesBySpendersId, event.params.spender);
-
-  allowancesBySpenders.allowance = event.params.value;
-  allowancesBySpenders.save();
-
-  if (!spendersByTokenFound.spenders) {
-    let allowances: string[] = [];
-    spendersByTokenFound.spenders = allowances;
-  }
-  spendersByTokenFound.spenders.push(allowancesBySpendersId)
-  spendersByTokenFound.save();
 }
 
 export function handleTransfer(event: Transfer): void {
-  // // Ignore 0 amount transfers
-  // if (event.params.value == BigInt.fromI32(0)) {
-  //   return
-  // }
+  // Ignore 0 amount transfers
+  if (event.params.value == BigInt.fromI32(0)) {
+    return
+  }
 
-  // // Check if the token address is on the ignore list
-  // let ignored = IgnoredToken.load(event.address.toHexString())
-  // if (ignored != null) {
-  //   return
-  // }
+  // Check if the token address is on the ignore list
+  let ignored = IgnoredToken.load(event.address.toHexString())
+  if (ignored != null) {
+    return
+  }
 
-  // // Get or create the token entity
-  // let token = getOrCreateERC20Token(event, event.address)
+  // Get or create the token entity
+  let token = getOrCreateERC20Token(event, event.address)
 
-  // // If null, wasn't an ERC20 token address
-  // if (!token) {
-  //   // Add address to ignore list
-  //   let ignored = new IgnoredToken(event.address.toHexString())
-  //   ignored.blockNumber = event.block.number
-  //   ignored.timestamp = event.block.timestamp
-  //   ignored.save()
+  // If null, wasn't an ERC20 token address
+  if (!token) {
+    // Add address to ignore list
+    let ignored = new IgnoredToken(event.address.toHexString())
+    ignored.blockNumber = event.block.number
+    ignored.timestamp = event.block.timestamp
+    ignored.save()
     
-  //   return
-  // }
+    return
+  }
+
+  let account = getOrCreateAccount(event.params.from);
+
+  for (let i = 0; i < account.spenders.entries.length; i++) {
+    let spender: string = account.spenders.entries[i].value.toString();
+    
+    let spenderAddress: Address = Address.fromString(spender);
+    let allowance = getOrCreateAllowance(event.params.from, event.address, spenderAddress);
+    let tokenInstance = ERC20.bind(event.address);
+    
+    let try_allowance = tokenInstance.try_allowance(event.params.from, spenderAddress);
+    if (!try_allowance.reverted) {
+      allowance.allowance = try_allowance.value;
+      allowance.save(); 
+
+      if (allowance.allowance.equals(BigInt.fromI32(0))) {
+        store.remove("Allowance", allowance.id);
+      }
+    }
+  }
 }

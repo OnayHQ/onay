@@ -79,7 +79,7 @@ export class SubgraphStatus extends Entity {
   }
 }
 
-export class SpendersByAddress extends Entity {
+export class Spender extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -87,26 +87,22 @@ export class SpendersByAddress extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save SpendersByAddress entity without an ID");
+    assert(id != null, "Cannot save Spender entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type SpendersByAddress must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Spender must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("SpendersByAddress", id.toString(), this);
+      store.set("Spender", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): SpendersByAddress | null {
-    return changetype<SpendersByAddress | null>(
-      store.get_in_block("SpendersByAddress", id)
-    );
+  static loadInBlock(id: string): Spender | null {
+    return changetype<Spender | null>(store.get_in_block("Spender", id));
   }
 
-  static load(id: string): SpendersByAddress | null {
-    return changetype<SpendersByAddress | null>(
-      store.get("SpendersByAddress", id)
-    );
+  static load(id: string): Spender | null {
+    return changetype<Spender | null>(store.get("Spender", id));
   }
 
   get id(): string {
@@ -122,17 +118,30 @@ export class SpendersByAddress extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get spenders(): Array<string> {
-    let value = this.get("spenders");
+  get account(): string {
+    let value = this.get("account");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toStringArray();
+      return value.toString();
     }
   }
 
-  set spenders(value: Array<string>) {
-    this.set("spenders", Value.fromStringArray(value));
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get spender(): Bytes {
+    let value = this.get("spender");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set spender(value: Bytes) {
+    this.set("spender", Value.fromBytes(value));
   }
 }
 
@@ -175,17 +184,16 @@ export class Account extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokens(): Array<string> {
-    let value = this.get("tokens");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+  get allowances(): AllowanceLoader {
+    return new AllowanceLoader(
+      "Account",
+      this.get("id")!.toString(),
+      "allowances"
+    );
   }
 
-  set tokens(value: Array<string>) {
-    this.set("tokens", Value.fromStringArray(value));
+  get spenders(): SpenderLoader {
+    return new SpenderLoader("Account", this.get("id")!.toString(), "spenders");
   }
 }
 
@@ -268,7 +276,7 @@ export class Token extends Entity {
   }
 }
 
-export class SpendersByToken extends Entity {
+export class Allowance extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -276,24 +284,22 @@ export class SpendersByToken extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save SpendersByToken entity without an ID");
+    assert(id != null, "Cannot save Allowance entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type SpendersByToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Allowance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("SpendersByToken", id.toString(), this);
+      store.set("Allowance", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): SpendersByToken | null {
-    return changetype<SpendersByToken | null>(
-      store.get_in_block("SpendersByToken", id)
-    );
+  static loadInBlock(id: string): Allowance | null {
+    return changetype<Allowance | null>(store.get_in_block("Allowance", id));
   }
 
-  static load(id: string): SpendersByToken | null {
-    return changetype<SpendersByToken | null>(store.get("SpendersByToken", id));
+  static load(id: string): Allowance | null {
+    return changetype<Allowance | null>(store.get("Allowance", id));
   }
 
   get id(): string {
@@ -309,74 +315,30 @@ export class SpendersByToken extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get token(): string {
+  get account(): string {
+    let value = this.get("account");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set account(value: string) {
+    this.set("account", Value.fromString(value));
+  }
+
+  get token(): Bytes {
     let value = this.get("token");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toString();
+      return value.toBytes();
     }
   }
 
-  set token(value: string) {
-    this.set("token", Value.fromString(value));
-  }
-
-  get spenders(): Array<string> {
-    let value = this.get("spenders");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set spenders(value: Array<string>) {
-    this.set("spenders", Value.fromStringArray(value));
-  }
-}
-
-export class AllowancesBySpenders extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save AllowancesBySpenders entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type AllowancesBySpenders must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("AllowancesBySpenders", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): AllowancesBySpenders | null {
-    return changetype<AllowancesBySpenders | null>(
-      store.get_in_block("AllowancesBySpenders", id)
-    );
-  }
-
-  static load(id: string): AllowancesBySpenders | null {
-    return changetype<AllowancesBySpenders | null>(
-      store.get("AllowancesBySpenders", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set token(value: Bytes) {
+    this.set("token", Value.fromBytes(value));
   }
 
   get spender(): Bytes {
@@ -471,5 +433,41 @@ export class IgnoredToken extends Entity {
 
   set timestamp(value: BigInt) {
     this.set("timestamp", Value.fromBigInt(value));
+  }
+}
+
+export class AllowanceLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Allowance[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Allowance[]>(value);
+  }
+}
+
+export class SpenderLoader extends Entity {
+  _entity: string;
+  _field: string;
+  _id: string;
+
+  constructor(entity: string, id: string, field: string) {
+    super();
+    this._entity = entity;
+    this._id = id;
+    this._field = field;
+  }
+
+  load(): Spender[] {
+    let value = store.loadRelated(this._entity, this._id, this._field);
+    return changetype<Spender[]>(value);
   }
 }
