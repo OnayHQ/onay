@@ -1,5 +1,7 @@
+import Link from "next/link";
+
 export const Logo = () => (
-  <>
+  <Link href="/">
     <svg
       width="109"
       height="46"
@@ -46,5 +48,5 @@ export const Logo = () => (
       <ellipse cx="17.5" cy="19.7432" rx="8.5" ry="10.7432" fill="#05D5EA" />
       <ellipse cx="17" cy="20.3086" rx="5" ry="6.78517" fill="#062DA1" />
     </svg>
-  </>
+  </Link>
 );
