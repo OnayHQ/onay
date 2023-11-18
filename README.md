@@ -4,7 +4,6 @@
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
 
 </div>
 
@@ -12,7 +11,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/orgs/OnayHQ/repositories">
+  <a href="https://github.com/OnayHQ/onay">
     <img src="https://i.imgur.com/j3NUDl1.png">
   </a>
  <h3 align="center">  </h3>
@@ -21,15 +20,6 @@
 
   [🇹🇷 Eth Global Istanbul 2023 Hackaton Project 🇹🇷 ](https://ethglobal.com/events/istanbul)
 
-   <br />
-    <a href="https://github.com/orgs/OnayHQ/repositories"><strong>Explore the github »</strong></a>
-    <br />
-    <a href="https://github.com/orgs/OnayHQ/repositories">View Demo</a>
-    ·
-    <a href="https://github.com/OnayHQ/onay/issues/new">Report Bug</a>
-    ·
-    <a href="https://github.com/OnayHQ/onay/issues/new">Request Feature</a>
-  </p>
 </div>
 
 <br />
@@ -62,7 +52,7 @@
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-Onay is a security system that secures your token approvals by monitoring the contract security breaches and react by revoking the permissions for you.
+Onay is a security system that secures your token approvals by monitoring the contract security breaches and react by revoking the permissions for you if a smart contract exploit is detected. Without compromising any custody.
 
 Onay means "Approval" in Turkish and took inspiration from the streets of Instanbul.
 
@@ -82,9 +72,9 @@ Onay is proudly supported by the following sponsors:
 * [![PolygonZkEVM][polygonzkevm-img]][polygonzkevm-url]
 * [![Arbitrum][arbitrum-img]][arbitrum-url]
 * [![Scroll][scroll-img]][scroll-url]
+* [![Gnosis][gnosis-img]][gnosis-url]
 
 These powerful tools and frameworks have helped us create a seamless user experience and ensure the scalability and reliability of our platform.
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -98,13 +88,17 @@ These powerful tools and frameworks have helped us create a seamless user experi
 
 To get started with Onay, follow these steps:
 
-1. Connect your wallet to the Onay dapp at [onay.eth.limo](onay.eth.limo)
+1. Connect your Safe Wallet to the Onay dapp at [onay-app.vercel.app](https://onay-app.vercel.app/)
 
-2. See the different token approvalls you gave to the different ententies per asset and network.
+2. See the different token approvals you gave to the different contracts per token and network.
 
-3. Secure your token approvals by committing a Safe transaction that ensures we have a permission to revoke your approval in case of a security breach.
+3. Secure your token approvals by adding OnlyModule to your Safe through the dapp. It gives the Security Council permission to revoke your approval in case of a security breach in a Smart Contract.
 
-4. If a security breack happens we reveke your approvals automatically.
+4. If a security breack happens the Security Council revokes your approvals inmediatly, even if you are sleeping, keeping your funds SAFU.
+
+## The Security Council 
+
+The Security Council is a Multi-Sig conformed by DAOs, security organizations and independent security researchers. Any member of the Council has permissions to hit the Red Button. Which will execute bulk revokes in one transaction for the potentially affected wallets. Since the Security Council can only revoke allowances, there is no extra risk to use this module. The worst harm it can do is to revoke all your allowances for no reason, but there is no incentive nor benefit to do so.
 
 
 ## Installation 
@@ -203,8 +197,7 @@ We would like to express our gratitude to the following resources that have been
 * [Polygon zkEVM Docs](https://wiki.polygon.technology/docs/zkevm/)
 * [Arbitrum Docs](https://docs.arbitrum.io/)
 * [Celo Docs](https://docs.celo.org/)
-
-<!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
+* [Gnosis Docs](https://docs.gnosis.io/)
 
 These resources have provided valuable insights, tools, and inspiration throughout the development process. We appreciate their contributions to the web development community.
 
@@ -229,6 +222,8 @@ These resources have provided valuable insights, tools, and inspiration througho
 [walletconnect-img]:https://img.shields.io/badge/walletConnect-000000?style=for-the-badge&logo=walletconnect&logoColor=white
 [scroll-url]:https://scroll.io/
 [scroll-img]:https://img.shields.io/badge/scroll-ffdbb0?style=for-the-badge&logo=scroll&logoColor=white
+[gnosis-url]:https://www.gnosis.io/
+[gnosis-img]:https://img.shields.io/badge/gnosis-3e6957?style=for-the-badge&logo=gnosis&logoColor=white
 [arbitrum-url]:https://arbitrum.io/
 [arbitrum-img]:https://img.shields.io/badge/arbitrum-162c4f?style=for-the-badge&logo=arbitrum&logoColor=white
 [polygonzkevm-url]:https://polygon.technology/polygon-zkevm
