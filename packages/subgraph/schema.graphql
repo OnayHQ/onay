@@ -1,0 +1,40 @@
+type SubgraphStatus @entity {
+  id: ID!
+  isInitialized: Boolean!
+  lastSnapshotBlock: BigInt!
+}
+
+type SpendersByAddress @entity {
+  id: ID!
+  spenders: [String!]
+}
+
+type Accounts @entity {
+  id: ID! #{user}
+  tokens: [SpendersByToken!]
+}
+
+type Token @entity {
+  id: ID!
+  decimals: Int!
+  name: String!
+  symbol: String!
+}
+
+type SpendersByToken @entity {
+  id: ID! #{user}{token}
+  token: Token!
+  spenders: [AllowancsBySpenders!]
+}
+
+type AllowancesBySpenders @entity {
+  id: ID! #{user}{token}{spender}
+  spender: Address!
+  allowance: BigInt!
+}
+
+type IgnoredToken @entity {
+  id: ID!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}

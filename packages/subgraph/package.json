@@ -1,0 +1,24 @@
+{
+  "name": "onay-subgraph",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "auth": "npx graph auth https://api.thegraph.com/deploy/",
+    "codegen": "npx graph codegen",
+    "build": "npm run prepare:gnosis && npx graph build",
+    "prepare:gnosis": "ts-node bin/build-subgraph.ts xdai && npm run codegen",
+    "prepare:mainnet": "ts-node bin/build-subgraph.ts mainnet && npm run codegen",
+    "deploy": "npx graph deploy --node https://api.thegraph.com/deploy/ onayhq/onay",
+    "create-local": "npx graph create --node http://localhost:8020/ onayhq/onay",
+    "remove-local": "npx graph remove --node http://localhost:8020/ onayhq/onay",
+    "deploy-local": "npx graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 onayhq/onay",
+    "test": "echo 'No tests yet, implement them'"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "0.51.2",
+    "@graphprotocol/graph-ts": "0.31.0",
+    "@types/node": "^18.11.18",
+    "ts-node": "^10.8.2",
+    "yaml": "^2.2.1"
+  }
+}
