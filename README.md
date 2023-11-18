@@ -12,7 +12,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/orgs/OnayHq/repositories">
+  <a href="https://github.com/orgs/OnayHQ/repositories">
     <img src="https://imgur.com/a/ww8ukfY">
   </a>
  <h3 align="center">  </h3>
@@ -26,9 +26,9 @@
     <br />
     <a href="https://github.com/orgs/OnayHQ/repositories">View Demo</a>
     ·
-    <a href="https://github.com/Onay/onay/issues/new">Report Bug</a>
+    <a href="https://github.com/OnayHQ/onay/issues/new">Report Bug</a>
     ·
-    <a href="https://github.com/Onay/onay/issues/new">Request Feature</a>
+    <a href="https://github.com/OnayHQ/onay/issues/new">Request Feature</a>
   </p>
 </div>
 
@@ -107,7 +107,7 @@ To get started with Onay, follow these steps:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/OnayHq/onay/
+   git clone https://github.com/OnayHQ/onay/
    ```
 2. Navigate to the project directory:
    ```sh
@@ -203,21 +203,13 @@ These resources have provided valuable insights, tools, and inspiration througho
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+[contributors-shield]:https://img.shields.io/github/contributors/OnayHQ/onay.svg?style=for-the-badge
+[contributors-url]: https://github.com/OnayHQ/onay/graphs/contributors
+[stars-shield]: https://img.shields.io/github/stars/OnayHQ/onay.svg?style=for-the-badge
+[stars-url]:https://github.com/OnayHQ/onay/stargazers
+[issues-shield]: https://img.shields.io/github/issues/OnayHQ/onay.svg?style=for-the-badge
+[issues-url]: https://github.com/OnayHQ/onay/issues
 
-<!-- MARKDOWN LINKS  CUIDADO ACÁ QUE DEBO CAMBIAr ESTO-->
-
-[contributors-shield]:https://img.shields.io/github/contributors/OnayHq/onay.svg?style=for-the-badge
-[contributors-url]: https://github.com/OnayHq/onay/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/Onay/onay.svg?style=for-the-badge
-[stars-url]:https://github.com/Onay/onay/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Onay/onay.svg?style=for-the-badge
-[issues-url]: https://github.com/Onay/onay/issues
-<!-- [license-shield]: https://img.shields.io/github/license/sheva323/JOIN.svg?style=for-the-badge
-[license-url]: https://github.com/sheva323/JOIN/blob/main/LICENSE.txt -->
-
-<!-- IMAGES -->
-
-<!-- [product-screenshot]: images/product.png -->
 
 <!-- SPONSORS -->
 
