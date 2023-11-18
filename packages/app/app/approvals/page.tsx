@@ -21,95 +21,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/Select";
+import Image from "next/image";
+import { SoapIcon } from "../../components/icons/SoapIcon";
 
-const MODULE_ADDRESS = "0xaD1f42682005D378C9dDc5E07103ccD48E87d829";
+const moduleAddressMap: Record<number, string> = {
+  42161: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
+  8453: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
+  42220: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
+  100: "0x62450f4067C79EfdBF2ABd5ae6F089d81cd6672d",
+  1101: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
+  534352: "0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25",
+};
 
 const safesServicesURLMap: Record<number, string> = {
-  1: "https://safe-transaction-mainnet.safe.global",
-  137: "https://safe-transaction-polygon.safe.global/",
+  42161: "https://safe-transaction-arbitrum.safe.global/",
+  8453: "https://safe-transaction-base.safe.global/",
+  42220: "https://safe-transaction-celo.safe.global/",
+  100: "https://safe-transaction-gnosis-chain.safe.global/",
+  1101: "https://safe-transaction-zkevm.safe.global/",
+  // 534352: "https://safe-transaction-zkevm.safe.global/",
 };
 
 export default function ApprovalsPage() {
-  const { address, chainId, isConnected } = useWeb3ModalAccount();
-  const { signer } = useWeb3ModalSigner();
-
-  const [safeSDK, setSafeSDK] = useState<Safe>();
-  const [ethAdapter, setEthAdapter] = useState<EthersAdapter>();
-  const [safesList, setSafesList] = useState<string[]>();
-  const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
-  const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
-
-  const createSafeSDK = useCallback(async () => {
-    if (!signer || !selectedSafeAddress || !ethAdapter) return;
-
-    const safeSdk = await Safe.create({
-      ethAdapter,
-      safeAddress: selectedSafeAddress,
-    });
-    setSafeSDK(safeSdk);
-  }, [ethAdapter, selectedSafeAddress, signer]);
-
-  const getSafesByOwner = useCallback(async () => {
-    if (!signer || !address || !chainId) return;
-
-    const ethAdapter = new EthersAdapter({
-      ethers,
-      signerOrProvider: signer,
-    });
-    setEthAdapter(ethAdapter);
-    const safeApiKit = new SafeApiKit({
-      txServiceUrl: safesServicesURLMap[chainId],
-      ethAdapter,
-    });
-    const safes: OwnerResponse = await safeApiKit.getSafesByOwner(address);
-
-    setSafesList(safes.safes);
-  }, [address, chainId]);
-
-  const getIsEnabledModule = async (address: string) => {
-    if (!ethAdapter) return;
-    const safeSdk = await Safe.create({
-      ethAdapter,
-      safeAddress: address,
-    });
-
-    const isEnabled = await safeSdk.isModuleEnabled(MODULE_ADDRESS);
-    console.log(address, isEnabled);
-    setIsEnabledModule(isEnabled);
-  };
-
-  useEffect(() => {
-    getSafesByOwner();
-  }, [getSafesByOwner]);
-
-  useEffect(() => {
-    createSafeSDK();
-  }, [createSafeSDK]);
-
-  const enableModule = async () => {
-    if (!safeSDK) return;
-
-    const safeTransaction = await safeSDK.createEnableModuleTx(MODULE_ADDRESS);
-    const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    await txResponse.transactionResponse?.wait();
-
-    setIsEnabledModule(true);
-  };
-
-  const disableModule = async () => {
-    if (!safeSDK) return;
-
-    const safeTransaction = await safeSDK.createDisableModuleTx(MODULE_ADDRESS);
-    const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    await txResponse.transactionResponse?.wait();
-
-    setIsEnabledModule(false);
-  };
-
-  const onSelectSafeChange = (value: string) => {
-    setSelectedSafeAddress(value);
-    getIsEnabledModule(value);
-  };
+  const { address, isConnected } = useWeb3ModalAccount();
 
   return (
     <div className="py-12 md:my-16">
@@ -132,38 +66,20 @@ export default function ApprovalsPage() {
             <h3 className="text-xl md:text-3xl font-bold">Approvals</h3>
           </div>
           <div className="space-y-24">
-            <button onClick={isEnabledModule ? disableModule : enableModule}>
-              {selectedSafeAddress
-                ? isEnabledModule
-                  ? "Disable Module"
-                  : "Enable Module"
-                : "Select Safe"}
-            </button>
-            <Select
-              onValueChange={onSelectSafeChange}
-              defaultValue={selectedSafeAddress}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select Safe" />
-              </SelectTrigger>
-              <SelectContent>
-                {safesList &&
-                  safesList.length > 0 &&
-                  safesList.map((address) => (
-                    <SelectItem key={address} value={address}>
-                      {addressShortner(address)}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-            {["Base", "Gnosis"].map((networkName) => (
-              <div className="mt-12 space-y-6" key={networkName}>
-                <NetworkHeader name={networkName} color="blue" />
-                <div className="space-y-2">
-                  <TokenApprovalsTable />
-                  <TokenApprovalsTable />
-                </div>
-              </div>
+            {[
+              { name: "Arbitrum", chainId: 42161, logo: "arbitrum" },
+              { name: "Base", chainId: 8453, logo: "base" },
+              { name: "Celo", chainId: 42220, logo: "celo" },
+              { name: "Gnosis Chain", chainId: 100, logo: "gnosis" },
+              { name: "Polygon zkEVM", chainId: 1101, logo: "polygon-zk-evm" },
+              //{ name: "Scroll", chainId: 534352 },
+            ].map(({ name, chainId, logo }) => (
+              <ChainGroup
+                key={chainId}
+                chainId={chainId}
+                name={name}
+                logo={logo}
+              />
             ))}
           </div>
         </div>
@@ -173,6 +89,178 @@ export default function ApprovalsPage() {
     </div>
   );
 }
+
+const ChainGroup = ({
+  chainId,
+  name,
+  logo,
+}: {
+  chainId: number;
+  name: string;
+  logo: string;
+}) => {
+  const { address, chainId: connectedChainId } = useWeb3ModalAccount();
+  const { signer } = useWeb3ModalSigner();
+
+  const [safesList, setSafesList] = useState<string[]>();
+  const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
+  const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
+  const [safeSDK, setSafeSDK] = useState<Safe>();
+
+  const createSafeSDK = useCallback(async () => {
+    if (!signer || !selectedSafeAddress) return;
+
+    const ethAdapter = new EthersAdapter({
+      ethers,
+      signerOrProvider: signer,
+    });
+    const safeSdk = await Safe.create({
+      ethAdapter,
+      safeAddress: selectedSafeAddress,
+    });
+    setSafeSDK(safeSdk);
+  }, [selectedSafeAddress, signer]);
+
+  useEffect(() => {
+    createSafeSDK();
+  }, [createSafeSDK]);
+
+  const getSafesByOwner = useCallback(async () => {
+    if (!signer || !address || !chainId) return;
+
+    const ethAdapter = new EthersAdapter({
+      ethers,
+      signerOrProvider: signer,
+    });
+    const safeApiKit = new SafeApiKit({
+      txServiceUrl: safesServicesURLMap[chainId],
+      ethAdapter,
+    });
+    const safes: OwnerResponse = await safeApiKit.getSafesByOwner(address);
+
+    setSafesList(safes.safes);
+    setSelectedSafeAddress(safes.safes[0]);
+  }, [address, chainId]);
+
+  const getIsEnabledModule = async (address: string) => {
+    if (!signer) return;
+
+    const ethAdapter = new EthersAdapter({
+      ethers,
+      signerOrProvider: signer,
+    });
+    const safeSdk = await Safe.create({
+      ethAdapter,
+      safeAddress: address,
+    });
+
+    const isEnabled = await safeSdk.isModuleEnabled(MODULE_ADDRESS);
+    console.log(address, isEnabled);
+    setIsEnabledModule(isEnabled);
+  };
+
+  useEffect(() => {
+    getSafesByOwner();
+  }, [getSafesByOwner]);
+
+  const onSelectSafeChange = (value: string) => {
+    setSelectedSafeAddress(value);
+    getIsEnabledModule(value);
+  };
+
+  const enableModule = async () => {
+    if (!safeSDK) return;
+
+    const safeTransaction = await safeSDK.createEnableModuleTx(
+      moduleAddressMap[chainId]
+    );
+    const txResponse = await safeSDK.executeTransaction(safeTransaction);
+    await txResponse.transactionResponse?.wait();
+
+    setIsEnabledModule(true);
+  };
+
+  const disableModule = async () => {
+    if (!safeSDK) return;
+
+    const safeTransaction = await safeSDK.createDisableModuleTx(
+      moduleAddressMap[chainId]
+    );
+    const txResponse = await safeSDK.executeTransaction(safeTransaction);
+    await txResponse.transactionResponse?.wait();
+
+    setIsEnabledModule(false);
+  };
+
+  return (
+    <div className="mt-12 space-y-6">
+      <div className="rounded-lg w-full">
+        <div className="flex items-center justify-between">
+          <div className="flex space-x-2 items-center">
+            <Image
+              width={32}
+              height={32}
+              alt={`${name} network`}
+              src={`/assets/networks/${logo}.png`}
+              className="rounded-full w-10 h-10"
+            />
+            <p className="text-xl font-medium">{name}</p>
+          </div>
+          <div className="flex space-x-4">
+            <Select
+              onValueChange={onSelectSafeChange}
+              defaultValue={selectedSafeAddress}
+            >
+              <SelectTrigger className="w-48">
+                <SelectValue
+                  placeholder={
+                    selectedSafeAddress
+                      ? addressShortner(selectedSafeAddress)
+                      : "Select Safe"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent className=" bg-white">
+                {safesList &&
+                  safesList.length > 0 &&
+                  safesList.map((address) => (
+                    <SelectItem key={address} value={address}>
+                      {addressShortner(address)}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+            <button
+              onClick={isEnabledModule ? disableModule : enableModule}
+              className="py-2 px-4 hover:bg-blue-700 bg-blue-800 text-white rounded-full flex items-center space-x-2"
+            >
+              <SoapIcon />
+              {connectedChainId !== chainId ? (
+                <p>Connect to {name}</p>
+              ) : selectedSafeAddress ? (
+                isEnabledModule ? (
+                  <p>Disable secure approvals on {name}</p>
+                ) : (
+                  <p>Secure your approvals on {name}</p>
+                )
+              ) : (
+                <p>Select Safe on {name}</p>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+      {selectedSafeAddress ? (
+        <div className="space-y-2">
+          <TokenApprovalsTable />
+          <TokenApprovalsTable />
+        </div>
+      ) : (
+        <p>Select Safe on {name}.</p>
+      )}
+    </div>
+  );
+};
 
 const NotConnected = () => (
   <div>

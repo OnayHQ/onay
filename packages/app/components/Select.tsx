@@ -5,7 +5,9 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 // import { Check, ChevronDown, ChevronUp } from "lucide-react";
 
 import { cx } from "class-variance-authority";
-import { FetchIcon } from "./icons/FetchIcon";
+import { CaretDownIcon } from "./icons/CaretDownIcon";
+import { CaretUpIcon } from "./icons/CaretUpIcon";
+import { CheckIcon } from "./icons/CheckIcon";
 
 const Select = SelectPrimitive.Root;
 
@@ -27,7 +29,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <FetchIcon className="h-4 w-4 opacity-50" />
+      <CaretDownIcon className="h-4 w-4 opacity-50" />
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
@@ -45,7 +47,7 @@ const SelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <FetchIcon className="h-4 w-4" />
+    <CaretUpIcon className="h-4 w-4" />
   </SelectPrimitive.ScrollUpButton>
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
@@ -62,7 +64,7 @@ const SelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <FetchIcon className="h-4 w-4" />
+    <CaretDownIcon className="h-4 w-4" />
   </SelectPrimitive.ScrollDownButton>
 ));
 SelectScrollDownButton.displayName =
@@ -126,7 +128,7 @@ const SelectItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <FetchIcon className="h-4 w-4" />
+        <CheckIcon className="h-4 w-4" />
       </SelectPrimitive.ItemIndicator>
     </span>
 
