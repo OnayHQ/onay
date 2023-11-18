@@ -15,6 +15,14 @@ const mainnet = {
   rpcUrl: "https://cloudflare-eth.com",
 };
 
+const polygon = {
+  chainId: 137,
+  name: "Polygon",
+  currency: "MATIC",
+  explorerUrl: "https://polygonscan.io",
+  rpcUrl: "https://polygon-rpc.com",
+};
+
 // 3. Create modal
 const metadata = {
   name: "Onay",
@@ -26,9 +34,9 @@ const metadata = {
 export const createModal = () =>
   createWeb3Modal({
     ethersConfig: defaultConfig({ metadata }),
-    chains: [mainnet],
+    chains: [polygon],
     projectId,
-    defaultChain: mainnet,
+    defaultChain: polygon,
     themeMode: "light",
   });
 
