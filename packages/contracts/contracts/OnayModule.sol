@@ -10,7 +10,7 @@ error InvalidParameters();
 
 contract OnayModule is Ownable {
   string public constant NAME = "Onay Module";
-  string public constant VERSION = "0.1.0";
+  string public constant VERSION = "0.1.1";
 
   constructor() Ownable(msg.sender) {}
     
