@@ -87,28 +87,20 @@ export default function ApprovalsPage() {
   }, [createSafeSDK]);
 
   const enableModule = async () => {
-    console.log("hello");
     if (!safeSDK) return;
-    console.log("bye");
 
     const safeTransaction = await safeSDK.createEnableModuleTx(MODULE_ADDRESS);
-    console.log("bye2");
     const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    console.log("bye3");
     await txResponse.transactionResponse?.wait();
 
     setIsEnabledModule(true);
   };
 
   const disableModule = async () => {
-    console.log("hello");
     if (!safeSDK) return;
-    console.log("bye");
 
     const safeTransaction = await safeSDK.createDisableModuleTx(MODULE_ADDRESS);
-    console.log("bye2");
     const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    console.log("bye3");
     await txResponse.transactionResponse?.wait();
 
     setIsEnabledModule(false);
