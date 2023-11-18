@@ -1,9 +1,3 @@
-type SubgraphStatus @entity {
-  id: ID!
-  isInitialized: Boolean!
-  lastSnapshotBlock: BigInt!
-}
-
 type Spender @entity { #links to spendersbyaddress
   id: ID! #{spender}{user}
   account: Account!

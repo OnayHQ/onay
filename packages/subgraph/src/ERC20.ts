@@ -10,9 +10,16 @@ import {
 } from "./common"
 
 export function handleApproval(event: Approval): void {
+  if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
+    log.info("transaccion_ejecutada", [])
+  }
   // Check if the token address is on the ignore list
   let ignored = IgnoredToken.load(event.address.toHexString());
   if (ignored != null) {
+
+    if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
+      log.info("transaccion_return1", [])
+    }
     return;
   }
 
@@ -27,6 +34,9 @@ export function handleApproval(event: Approval): void {
     ignored.timestamp = event.block.timestamp;
     ignored.save();
     
+    if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
+      log.info("transaccion_return2", [])
+    }
     return
   }
 
@@ -39,6 +49,10 @@ export function handleApproval(event: Approval): void {
 
   if (allowance.allowance.equals(BigInt.fromI32(0))) {
     store.remove("Allowance", allowance.id);
+  }
+
+  if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
+    log.info("transaccion_terminada", [])
   }
 }
 
