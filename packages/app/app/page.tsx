@@ -6,15 +6,21 @@ export default function Home() {
   return (
     <main className="py-16 md:py-24">
       <div className="space-y-6">
-        <h1 className="font-bold text-4xl md:text-8xl">Get your sleep back.</h1>
-        <h3 className="text-xl md:text-2xl">
-          We check the security of your{" "}
-          <span className="underline underline-offset-4">approvals</span> so you
-          don’t have to.
+        <h1 className="font-bold text-center text-4xl md:text-8xl text-blue-800">
+          Get your sleep back.
+        </h1>
+        <h3 className="text-xl md:text-2xl text-gray-700 text-center">
+          We check the security of your token{" "}
+          <span className="underline underline-offset-4 text-black">
+            approvals
+          </span>{" "}
+          so you don’t have to.
         </h3>
       </div>
-      <div className="mt-32 md:mt-64 mb-12">
-        <h3 className="text-xl md:text-2xl font-bold mb-8">How does it work</h3>
+      <div className="mt-32 md:mt-48 mb-12">
+        <h3 className="text-xl md:text-xl font-semibold mb-8 text-gray-600">
+          How does it work
+        </h3>
         <div className="flex md:flex-row flex-col space-y-16 md:space-y-0 md:justify-between">
           <div className="max-w-xs">
             <FetchIcon />
