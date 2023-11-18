@@ -1,7 +1,10 @@
 "use client";
 
-import { addressShortner } from "@/utils";
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { addressShortner } from "@/utils";
+import { NetworkHeader } from "@/components/NetworkHeader";
+import { TokenApprovalsTable } from "@/components/TokenApprovalsTable";
+import { ApprovalsListIcon } from "@/components/icons/ApprovalsListIcon";
 
 export default function ApprovalsPage() {
   const { address, isConnected } = useWeb3ModalAccount();
@@ -11,10 +14,10 @@ export default function ApprovalsPage() {
       {isConnected ? (
         <div>
           <div className="mb-12">
-            <h1 className="text-3xl md:text-6xl font-black">
+            <h1 className="text-3xl md:text-5xl font-black">
               {addressShortner(address)}
             </h1>
-            <div className="bg-gray-200 h-3 rounded-full relative w-full md:w-[30rem] mt-1">
+            <div className="bg-gray-200 h-3 rounded-full relative w-full md:w-[24rem] mt-1">
               <div className="bg-green-500 w-[80%] rounded-full h-3"></div>
             </div>
             <div className="flex space-x-2 mt-2">
@@ -22,7 +25,21 @@ export default function ApprovalsPage() {
               <p className="font-medium text-gray-600">wallet health score</p>
             </div>
           </div>
-          <h3 className="text-lg md:text-2xl font-bold mb-4">Approvals</h3>
+          <div className="flex items-center space-x-2">
+            <ApprovalsListIcon />
+            <h3 className="text-xl md:text-3xl font-bold">Approvals</h3>
+          </div>
+          <div className="space-y-24">
+            {["Base", "Gnosis"].map(networkName => (
+              <div className="mt-12 space-y-6" key={networkName}>
+                <NetworkHeader name={networkName} color="blue" />
+                <div className="space-y-2">
+                  <TokenApprovalsTable />
+                  <TokenApprovalsTable />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <NotConnected />
