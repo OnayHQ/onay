@@ -11,3 +11,17 @@ export const addressShortner = (address: string) => {
 
   return truncatedAddress;
 };
+
+export const getSemaphoreColorBasedOnPoints = (randomValue: number) => {
+  let color;
+
+  if (randomValue >= 1 && randomValue <= 30) {
+    color = "red";
+  } else if (randomValue > 30 && randomValue <= 70) {
+    color = "yellow";
+  } else if (randomValue > 70 && randomValue <= 100) {
+    color = "green";
+  }
+
+  return color;
+};
