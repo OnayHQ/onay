@@ -56,6 +56,17 @@ export default function ApprovalsPage() {
 
 const NotConnected = () => (
   <div>
-    <div>please connect 🙌</div>
+    <div className="mb-12">
+      <div className="h-20 w-96 rounded-xl bg-gray-100 animate-pulse"></div>
+    </div>
+    <div className="h-10 w-48 rounded-xl bg-gray-100 animate-pulse mb-8"></div>
+    <div className="space-y-6">
+      {[1, 2, 3, 4, 5, 6].map(index => (
+        <div
+          key={index}
+          className="h-32 w-full rounded-xl bg-gray-100 animate-pulse"
+        />
+      ))}
+    </div>
   </div>
 );
