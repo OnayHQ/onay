@@ -67,7 +67,7 @@ export const ChainGroup = ({
   const [allowances, setAllowances] = useState<any>();
   const getAllowances = useCallback(async () => {
     const result: any = await request(queryUrl(queryName), getAllowancesQuery, {
-      address: selectedSafeAddress,
+      address: selectedSafeAddress?.toLowerCase(),
     });
     console.log("queryUrl:", queryUrl(queryName));
     console.log("result:", result);
