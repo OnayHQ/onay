@@ -102,10 +102,15 @@ The Security Council is a Multi-Sig conformed by DAOs, security organizations an
 
 
 Celo: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://explorer.celo.org/mainnet/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+
 Scroll: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://scrollscan.com/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+
 PolygonZK: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://zkevm.polygonscan.com/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+
 Arbitrum: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://arbiscan.io/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+
 Gnosis: [0x62450f4067C79EfdBF2ABd5ae6F089d81cd6672d](https://gnosisscan.io/address/0x62450f4067C79EfdBF2ABd5ae6F089d81cd6672d)
+
 Base: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://basescan.org/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
 
 
