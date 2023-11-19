@@ -108,12 +108,11 @@ const ChainGroup = ({
   const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
   const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
   const [safeSDK, setSafeSDK] = useState<Safe>();
-  const [loadingIsEnabledModule, setLoadingIsEnabledModule] = useState<
-    boolean
-  >();
-  const [loadingSubmitTransaction, setLoadingSubmitTransaction] = useState<
-    boolean
-  >();
+  const [loadingIsEnabledModule, setLoadingIsEnabledModule] =
+    useState<boolean>();
+  const [loadingSubmitTransaction, setLoadingSubmitTransaction] =
+    useState<boolean>();
+  const [allowances, setAllowances] = useState<any>();
 
   const getAllowances = useCallback(async () => {
     const result = await request(queryUrl(queryName), getAllowancesQuery, {
@@ -121,13 +120,17 @@ const ChainGroup = ({
     });
     console.log("queryUrl:", queryUrl(queryName));
     console.log("result:", result);
+    if (result && result.accounts.length > 0) {
+      console.log("entrei", result);
+      setAllowances(result.accounts[0].allowances);
+    }
   }, [queryName, selectedSafeAddress]);
 
   useEffect(() => {
     if (selectedSafeAddress) {
       getAllowances();
     }
-  }, [getAllowances, selectedSafeAddress]);
+  }, [allowances, getAllowances, selectedSafeAddress]);
 
   const createSafeSDK = useCallback(async () => {
     if (!signer || !selectedSafeAddress) return;
@@ -141,7 +144,7 @@ const ChainGroup = ({
       safeAddress: selectedSafeAddress,
     });
     setSafeSDK(safeSdk);
-  }, [selectedSafeAddress, signer]);
+  }, [selectedSafeAddress]);
 
   useEffect(() => {
     createSafeSDK();
@@ -261,7 +264,7 @@ const ChainGroup = ({
                   <SelectContent className=" bg-white">
                     {safesList &&
                       safesList.length > 0 &&
-                      safesList.map((address) => (
+                      safesList.map(address => (
                         <SelectItem key={address} value={address}>
                           {addressShortner(address)}
                         </SelectItem>
@@ -305,9 +308,9 @@ const ChainGroup = ({
         </div>
       </div>
       {safesList && safesList?.length ? (
-        selectedSafeAddress ? (
+        selectedSafeAddress && allowances ? (
           <div className="space-y-2">
-            <TokenApprovalsTable />
+            <TokenApprovalsTable allowanceData={allowances} />
           </div>
         ) : (
           <p>Select Safe on {name}.</p>
@@ -319,6 +322,6 @@ const ChainGroup = ({
 
 const NotConnected = () => (
   <div>
-    <div>please connect 🙏</div>
+    <div>please connect 🙌</div>
   </div>
 );
