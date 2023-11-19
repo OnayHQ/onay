@@ -157,7 +157,7 @@ export const ChainGroup = ({
     }
   };
   return (
-    <div className="mt-12 space-y-6  rounded-2xl">
+    <div className="mt-12 space-y-6 bg-gray-50 p-6 rounded-2xl">
       <div className="rounded-lg w-full">
         <div className="flex  md:flex-row flex-col  items-center justify-between">
           <div className="flex space-x-3 items-center">
