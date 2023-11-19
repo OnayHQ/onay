@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="py-16 md:py-24">
       <div className="space-y-6">
-        <h1 className="font-bold text-center text-4xl md:text-8xl text-blue-800">
+        <h1 className="font-bold text-center text-4xl md:text-8xl text-blue-800 mt-6">
           Get your sleep back.
         </h1>
         <h3 className="text-xl md:text-2xl text-gray-700 text-center">
