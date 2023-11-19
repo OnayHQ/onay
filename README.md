@@ -98,6 +98,66 @@ To get started with Onay, follow these steps:
 
 The Security Council is a Multi-Sig conformed by DAOs, security organizations and independent security researchers. Any member of the Council has permissions to hit the Red Button. Which will execute bulk revokes in one transaction for the potentially affected wallets. Since the Security Council can only revoke allowances, there is no extra risk to use this module. The worst harm it can do is to revoke all your allowances for no reason, but there is no incentive nor benefit to do so.
 
+## Safe OnayModule Contract Addresses
+
+
+Celo: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://explorer.celo.org/mainnet/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+Scroll: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://scrollscan.com/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+PolygonZK: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://zkevm.polygonscan.com/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+Arbitrum: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://arbiscan.io/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+Gnosis: [0x62450f4067C79EfdBF2ABd5ae6F089d81cd6672d](https://gnosisscan.io/address/0x62450f4067C79EfdBF2ABd5ae6F089d81cd6672d)
+Base: [0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25](https://basescan.org/address/0x1e4feed269D99B67B2Bf70Ab5BAab3Ca46285C25)
+
+
+# Allowances Subgraphs API endpoints
+[Celo](https://api.studio.thegraph.com/query/58840/onay-celo/version/latest)
+
+[Scroll](https://api.studio.thegraph.com/query/58840/onay-scroll/version/latest)
+
+[Polygon zkEVM](https://api.studio.thegraph.com/query/58840/onay-polygonzk/version/latest)
+
+[Arbitrum](https://api.studio.thegraph.com/query/58840/onay-arbitrum/version/latest)
+
+[Gnosis](https://api.studio.thegraph.com/query/58840/onay-gnosis/version/latest)
+
+[Base](https://api.studio.thegraph.com/query/58840/onay-base/version/latest)
+
+# Subgraph Example Query By Address (Arbitrum)
+
+Query
+```
+{
+  accounts(where: {id:"0x00fe70b0a6a4e4a21d6061292cd6ff44409b7d84",allowances_: {allowance_gt: "0"}}) {
+    id
+    allowances {
+      allowance
+      token
+      spender
+    }
+  }
+}
+
+```
+
+Output
+```
+{
+  "data": {
+    "accounts": [
+      {
+        "id": "0x00fe70b0a6a4e4a21d6061292cd6ff44409b7d84",
+        "allowances": [
+          {
+            "allowance": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+            "token": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
+            "spender": "0x9aed3a8896a85fe9a8cac52c9b402d092b629a30"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ## Installation 
 
