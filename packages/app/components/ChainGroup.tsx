@@ -157,60 +157,54 @@ export const ChainGroup = ({
     }
   };
   return (
-    <div className="mt-12 space-y-6">
-      {" "}
+    <div className="mt-12 space-y-6  rounded-2xl">
       <div className="rounded-lg w-full">
-        {" "}
-        <div className="flex items-center justify-between">
-          {" "}
+        <div className="flex  md:flex-row flex-col  items-center justify-between">
           <div className="flex space-x-3 items-center">
-            {" "}
             <Image
               width={32}
               height={32}
               alt={`${name} network`}
               src={`/assets/networks/${logo}.png`}
               className="rounded-full w-10 h-10"
-            />{" "}
-            <p className="text-xl font-medium">{name}</p>{" "}
-            {isEnabledModule ? (
-              <p className="text-blue-500">Secured</p>
-            ) : (
-              <p className="text-red-400">Not secured</p>
-            )}{" "}
-          </div>{" "}
-          <div className="flex space-x-4">
-            {" "}
+            />
+            <p className="text-xl font-medium">{name}</p>
+          </div>
+          <div className="flex  md:flex-row flex-col space-y-4 md:space-y-0 items-center space-x-4">
             {safesList && safesList?.length > 0 ? (
               <>
-                {" "}
+                {isEnabledModule ? (
+                  <div className="text-blue-500 bg-blue-50 py-1 px-2 rounded-lg">
+                    Secured
+                  </div>
+                ) : (
+                  <div className="text-red-400 bg-red-50 py-1 px-2 rounded-lg">
+                    Not secured
+                  </div>
+                )}
                 <Select
                   onValueChange={onSelectSafeChange}
                   defaultValue={selectedSafeAddress}
                 >
-                  {" "}
                   <SelectTrigger className="w-48">
-                    {" "}
                     <SelectValue
                       placeholder={
                         selectedSafeAddress
                           ? addressShortner(selectedSafeAddress)
                           : "Select Safe"
                       }
-                    />{" "}
-                  </SelectTrigger>{" "}
+                    />
+                  </SelectTrigger>
                   <SelectContent className=" bg-white">
-                    {" "}
                     {safesList &&
                       safesList.length > 0 &&
                       safesList.map(address => (
                         <SelectItem key={address} value={address}>
-                          {" "}
-                          {addressShortner(address)}{" "}
+                          {addressShortner(address)}
                         </SelectItem>
-                      ))}{" "}
-                  </SelectContent>{" "}
-                </Select>{" "}
+                      ))}
+                  </SelectContent>
+                </Select>
                 <button
                   onClick={isEnabledModule ? disableModule : enableModule}
                   className={`py-2 px-4 ${
@@ -219,7 +213,6 @@ export const ChainGroup = ({
                       : "hover:bg-blue-700 bg-blue-800 text-white"
                   }  rounded-full flex items-center space-x-2`}
                 >
-                  {" "}
                   {!isEnabledModule && <SoapIcon />}{" "}
                   {connectedChainId !== chainId ? (
                     <p>Connect to {name}</p>
@@ -239,30 +232,28 @@ export const ChainGroup = ({
                     )
                   ) : (
                     <p>Select Safe</p>
-                  )}{" "}
-                </button>{" "}
+                  )}
+                </button>
               </>
             ) : (
               <p>No Safe deployed in {name}.</p>
-            )}{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>{" "}
+            )}
+          </div>
+        </div>
+      </div>
       {safesList && safesList?.length ? (
         selectedSafeAddress && allowances ? (
           <>
-            {" "}
             {allowances.map((allowance: any) => (
               <div key={allowance.token} className="space-y-2">
-                {" "}
-                <TokenApprovalsTable allowanceData={allowance} />{" "}
+                <TokenApprovalsTable allowanceData={allowance} />
               </div>
-            ))}{" "}
+            ))}
           </>
         ) : (
           <p>Select Safe on {name}.</p>
         )
-      ) : null}{" "}
+      ) : null}
     </div>
   );
 };
