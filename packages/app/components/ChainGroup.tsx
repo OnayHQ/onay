@@ -169,6 +169,9 @@ export const ChainGroup = ({
               className="rounded-full w-10 h-10"
             />
             <p className="text-xl font-medium">{name}</p>
+            {connectedChainId === chainId && (
+              <p className="text-gray-400">Connected</p>
+            )}
           </div>
           <div className="flex  md:flex-row flex-col space-y-4 md:space-y-0 items-center space-x-4">
             {safesList && safesList?.length > 0 ? (
@@ -213,7 +216,6 @@ export const ChainGroup = ({
                       : "hover:bg-blue-700 bg-blue-800 text-white"
                   }  rounded-full flex items-center space-x-2`}
                 >
-                  {!isEnabledModule && <SoapIcon />}{" "}
                   {connectedChainId !== chainId ? (
                     <p>Connect to {name}</p>
                   ) : selectedSafeAddress ? (
@@ -228,7 +230,10 @@ export const ChainGroup = ({
                     ) : loadingSubmitTransaction ? (
                       <p>Enabling ...</p>
                     ) : (
-                      <p>Enable Safe Module</p>
+                      <>
+                        <SoapIcon />
+                        <p>Enable Safe Module</p>
+                      </>
                     )
                   ) : (
                     <p>Select Safe</p>
@@ -236,7 +241,7 @@ export const ChainGroup = ({
                 </button>
               </>
             ) : (
-              <p>No Safe deployed in {name}.</p>
+              <p className="text-gray-400">No Safe deployed in {name}.</p>
             )}
           </div>
         </div>
@@ -251,7 +256,12 @@ export const ChainGroup = ({
             ))}
           </>
         ) : (
-          <p>Select Safe on {name}.</p>
+          <div className="flex flex-col space-y-1">
+            <p className="text-xs uppercase font-semibold text-gray-400">
+              Address
+            </p>
+            <p>{selectedSafeAddress}.</p>
+          </div>
         )
       ) : null}
     </div>

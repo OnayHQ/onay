@@ -35,7 +35,7 @@ export default function ApprovalsPage() {
             <span className="bg-yellow-500 bg-red-500 bg-green-500 hidden"></span>
             <h3 className="text-xl md:text-3xl font-bold">Approvals</h3>
           </div>
-          <div className="space-y-10 md:space-y-16">
+          <div className="space-y-5 md:space-y-8">
             {chains.map(({ name, queryName, chainId, logo }) => (
               <ChainGroup
                 key={chainId}
