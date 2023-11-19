@@ -20,7 +20,7 @@ export function handleApproval(event: Approval): void {
     if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
       log.info("transaccion_return1", [])
     }
-    return;
+    //return;
   }
 
   // Get or create the token entity
@@ -37,7 +37,7 @@ export function handleApproval(event: Approval): void {
     if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
       log.info("transaccion_return2", [])
     }
-    return
+    //return
   }
 
   getOrCreateSpender(event.params.spender, event.params.owner);
@@ -48,7 +48,7 @@ export function handleApproval(event: Approval): void {
   allowance.save();
 
   if (allowance.allowance.equals(BigInt.fromI32(0))) {
-    store.remove("Allowance", allowance.id);
+    //store.remove("Allowance", allowance.id);
   }
 
   if (event.transaction.hash.toHexString() == "0x825e495a1f6af52d695230a745b169cb18b26759829883ff694b16395b305dd0") {
@@ -97,7 +97,7 @@ export function handleTransfer(event: Transfer): void {
       allowance.save(); 
 
       if (allowance.allowance.equals(BigInt.fromI32(0))) {
-        store.remove("Allowance", allowance.id);
+        //store.remove("Allowance", allowance.id);
       }
     }
   }

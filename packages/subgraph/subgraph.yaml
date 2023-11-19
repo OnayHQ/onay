@@ -7,7 +7,7 @@ dataSources:
     network: arbitrum-one
     source:
       abi: ERC20
-      startBlock: 151755177
+      startBlock: 151829570
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

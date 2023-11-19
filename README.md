@@ -98,6 +98,10 @@ To get started with Onay, follow these steps:
 
 The Security Council is a Multi-Sig conformed by DAOs, security organizations and independent security researchers. Any member of the Council has permissions to hit the Red Button. Which will execute bulk revokes in one transaction for the potentially affected wallets. Since the Security Council can only revoke allowances, there is no extra risk to use this module. The worst harm it can do is to revoke all your allowances for no reason, but there is no incentive nor benefit to do so.
 
+## Figma
+
+https://www.figma.com/file/BCSigw0HAn5olNmrRArAOj/Onay---secure-your-approvals?type=design&node-id=0%3A1&mode=design&t=xDsfntwUL3HnenzH-1
+
 ## Safe OnayModule Contract Addresses
 
 
