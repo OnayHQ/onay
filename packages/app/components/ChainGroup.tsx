@@ -68,21 +68,32 @@ export const ChainGroup = ({
   >();
   const [allowances, setAllowances] = useState<any>();
   const getAllowances = useCallback(async () => {
-    const result: any = await request(queryUrl(queryName), getAllowancesQuery, {
-      address: selectedSafeAddress?.toLowerCase(),
-    });
-    console.log("queryUrl:", queryUrl(queryName));
-    console.log("result:", result);
-    if (result && result.accounts.length > 0) {
-      console.log("entrei", result);
-      setAllowances(result.accounts[0].allowances);
+    if (!safesList) return;
+
+    for (const safe of safesList) {
+      const result: any = await request(
+        queryUrl(queryName),
+        getAllowancesQuery,
+        {
+          address: safe?.toLowerCase(),
+        }
+      );
+      console.log("queryUrl:", queryUrl(queryName));
+      console.log("result:", result);
+      if (result && result.accounts.length > 0) {
+        console.log("entrei", result);
+        setAllowances((allowance: any) => ({
+          [safe]: result.accounts[0].allowances,
+          ...allowance,
+        }));
+      }
     }
-  }, [queryName, selectedSafeAddress]);
+  }, [queryName, safesList]);
   useEffect(() => {
     if (selectedSafeAddress) {
       getAllowances();
     }
-  }, [allowances, getAllowances, selectedSafeAddress]);
+  }, [getAllowances, selectedSafeAddress]);
   const createSafeSDK = useCallback(async () => {
     if (!signer || !selectedSafeAddress) return;
     const ethAdapter = new EthersAdapter({ ethers, signerOrProvider: signer });
@@ -195,7 +206,11 @@ export const ChainGroup = ({
               <p className="text-gray-400">Connected</p>
             )}
           </div>
-          <div className="flex  md:flex-row flex-col space-y-4 md:space-y-0 items-center space-x-4">
+          <div
+            className={`flex  md:flex-row flex-col space-y-4 md:space-y-0 items-center space-x-4 ${safesList &&
+              safesList.length > 0 &&
+              "border shadow-md bg-white rounded-xl  px-6 py-4"}`}
+          >
             {safesList && safesList?.length > 0 ? (
               <>
                 {isEnabledModule ? (
@@ -269,20 +284,29 @@ export const ChainGroup = ({
         </div>
       </div>
       {safesList && safesList?.length ? (
-        selectedSafeAddress && allowances ? (
+        selectedSafeAddress &&
+        allowances &&
+        Object.keys(allowances).length > 0 ? (
           <>
-            {allowances.map((allowance: any) => (
-              <div key={allowance.token} className="space-y-2">
-                <TokenApprovalsTable allowanceData={allowance} />
-              </div>
+            {Object.keys(allowances).map((safe: any) => (
+              <>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-xs uppercase font-semibold text-gray-400">
+                    Safe Address
+                  </p>
+                  <p className="text-sm">{safe}</p>
+                </div>
+                {allowances[safe].map((allowance: any) => (
+                  <div key={allowance.token} className="space-y-2">
+                    <TokenApprovalsTable allowanceData={allowance} />
+                  </div>
+                ))}
+              </>
             ))}
           </>
         ) : (
           <div className="flex flex-col space-y-1">
-            <p className="text-xs uppercase font-semibold text-gray-400">
-              Address
-            </p>
-            <p>{selectedSafeAddress}.</p>
+            <p className="text-gray-400">No approved tokens.</p>
           </div>
         )
       ) : null}
