@@ -50,7 +50,7 @@ const safesServicesURLMap: Record<number, string> = {
 
 export default function ApprovalsPage() {
   const { address, isConnected } = useWeb3ModalAccount();
-  const randomScoreNumber = Math.floor(Math.random() * (100 - 20 + 1) + 20);
+  const randomScoreNumber = Math.floor(Math.random() * (100 - 60 + 1) + 60);
   const pointsColor = getSemaphoreColorBasedOnPoints(randomScoreNumber);
 
   return (
