@@ -108,14 +108,16 @@ const ChainGroup = ({
   const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
   const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
   const [safeSDK, setSafeSDK] = useState<Safe>();
-  const [loadingIsEnabledModule, setLoadingIsEnabledModule] =
-    useState<boolean>();
-  const [loadingSubmitTransaction, setLoadingSubmitTransaction] =
-    useState<boolean>();
+  const [loadingIsEnabledModule, setLoadingIsEnabledModule] = useState<
+    boolean
+  >();
+  const [loadingSubmitTransaction, setLoadingSubmitTransaction] = useState<
+    boolean
+  >();
   const [allowances, setAllowances] = useState<any>();
 
   const getAllowances = useCallback(async () => {
-    const result = await request(queryUrl(queryName), getAllowancesQuery, {
+    const result: any = await request(queryUrl(queryName), getAllowancesQuery, {
       address: selectedSafeAddress,
     });
     console.log("queryUrl:", queryUrl(queryName));
@@ -202,28 +204,40 @@ const ChainGroup = ({
     if (!safeSDK) return;
 
     setLoadingSubmitTransaction(true);
-    const safeTransaction = await safeSDK.createEnableModuleTx(
-      moduleAddressMap[chainId]
-    );
-    const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    await txResponse.transactionResponse?.wait();
 
-    setLoadingSubmitTransaction(false);
-    setIsEnabledModule(true);
+    try {
+      const safeTransaction = await safeSDK.createEnableModuleTx(
+        moduleAddressMap[chainId]
+      );
+      const txResponse = await safeSDK.executeTransaction(safeTransaction);
+      await txResponse.transactionResponse?.wait();
+
+      setLoadingSubmitTransaction(false);
+      setIsEnabledModule(true);
+    } catch (error) {
+      console.error(error);
+      setLoadingSubmitTransaction(false);
+    }
   };
 
   const disableModule = async () => {
     if (!safeSDK) return;
 
     setLoadingSubmitTransaction(true);
-    const safeTransaction = await safeSDK.createDisableModuleTx(
-      moduleAddressMap[chainId]
-    );
-    const txResponse = await safeSDK.executeTransaction(safeTransaction);
-    await txResponse.transactionResponse?.wait();
 
-    setLoadingSubmitTransaction(false);
-    setIsEnabledModule(false);
+    try {
+      const safeTransaction = await safeSDK.createDisableModuleTx(
+        moduleAddressMap[chainId]
+      );
+      const txResponse = await safeSDK.executeTransaction(safeTransaction);
+      await txResponse.transactionResponse?.wait();
+
+      setLoadingSubmitTransaction(false);
+      setIsEnabledModule(false);
+    } catch (error) {
+      console.error(error);
+      setLoadingSubmitTransaction(false);
+    }
   };
 
   return (
@@ -264,7 +278,7 @@ const ChainGroup = ({
                   <SelectContent className=" bg-white">
                     {safesList &&
                       safesList.length > 0 &&
-                      safesList.map(address => (
+                      safesList.map((address) => (
                         <SelectItem key={address} value={address}>
                           {addressShortner(address)}
                         </SelectItem>

@@ -5,7 +5,8 @@ export type NetworkQueryName =
   | "arbitrum"
   | "base"
   | "polygonzk"
-  | "gnosis";
+  | "gnosis"
+  | "scroll";
 
 export const getAllowancesQuery = gql`
   query getAllowancesQuery($address: String!) {

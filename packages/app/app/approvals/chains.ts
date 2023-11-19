@@ -38,5 +38,5 @@ export const chains: Chain[] = [
     chainId: 1101,
     logo: "polygon-zk-evm",
   },
-  //{ name: "Scroll", chainId: 534352 },
+  { name: "Scroll", queryName: "scroll", chainId: 534352, logo: "scroll" },
 ];
