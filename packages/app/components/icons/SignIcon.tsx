@@ -3,7 +3,7 @@ export const SignIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     width="32"
     height="32"
-    fill="#000000"
+    fill="#1c4ed8"
     viewBox="0 0 256 256"
     className="w-8 h-8"
   >

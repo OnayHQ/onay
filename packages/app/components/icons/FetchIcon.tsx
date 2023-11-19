@@ -3,7 +3,7 @@ export const FetchIcon = ({ className }: { className?: string }) => (
     xmlns="http://www.w3.org/2000/svg"
     width="64"
     height="64"
-    fill="#000000"
+    fill="#1c4ed8"
     viewBox="0 0 256 256"
     className={className || "w-8 h-8"}
   >
