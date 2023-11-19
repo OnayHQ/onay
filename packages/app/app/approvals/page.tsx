@@ -327,9 +327,13 @@ const ChainGroup = ({
       </div>
       {safesList && safesList?.length ? (
         selectedSafeAddress && allowances ? (
-          <div className="space-y-2">
-            <TokenApprovalsTable allowanceData={allowances} />
-          </div>
+          <>
+            {allowances.map((allowance: any) => (
+              <div key={allowance.token} className="space-y-2">
+                <TokenApprovalsTable allowanceData={allowance} />
+              </div>
+            ))}
+          </>
         ) : (
           <p>Select Safe on {name}.</p>
         )
