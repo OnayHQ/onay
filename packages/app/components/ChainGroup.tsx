@@ -60,10 +60,12 @@ export const ChainGroup = ({
   const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
   const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
   const [safeSDK, setSafeSDK] = useState<Safe>();
-  const [loadingIsEnabledModule, setLoadingIsEnabledModule] =
-    useState<boolean>();
-  const [loadingSubmitTransaction, setLoadingSubmitTransaction] =
-    useState<boolean>();
+  const [loadingIsEnabledModule, setLoadingIsEnabledModule] = useState<
+    boolean
+  >();
+  const [loadingSubmitTransaction, setLoadingSubmitTransaction] = useState<
+    boolean
+  >();
   const [allowances, setAllowances] = useState<any>();
   const getAllowances = useCallback(async () => {
     const result: any = await request(queryUrl(queryName), getAllowancesQuery, {
@@ -90,9 +92,11 @@ export const ChainGroup = ({
     });
     setSafeSDK(safeSdk);
   }, [selectedSafeAddress]);
+
   useEffect(() => {
     createSafeSDK();
   }, [createSafeSDK]);
+
   const getSafesByOwner = useCallback(async () => {
     if (!signer || !address || !chainId) return;
     const ethAdapter = new EthersAdapter({ ethers, signerOrProvider: signer });
@@ -108,22 +112,38 @@ export const ChainGroup = ({
       console.log(error);
     }
   }, [address, chainId]);
-  const getIsEnabledModule = async (address: string) => {
-    if (!signer) return;
-    const ethAdapter = new EthersAdapter({ ethers, signerOrProvider: signer });
-    setLoadingIsEnabledModule(true);
-    const safeSdk = await Safe.create({ ethAdapter, safeAddress: address });
-    const isEnabled = await safeSdk.isModuleEnabled(moduleAddressMap[chainId]);
-    setLoadingIsEnabledModule(false);
-    setIsEnabledModule(isEnabled);
-  };
+
+  const getIsEnabledModule = useCallback(
+    async (address: string) => {
+      if (!signer) return;
+      const ethAdapter = new EthersAdapter({
+        ethers,
+        signerOrProvider: signer,
+      });
+      setLoadingIsEnabledModule(true);
+      const safeSdk = await Safe.create({ ethAdapter, safeAddress: address });
+      const isEnabled = await safeSdk.isModuleEnabled(
+        moduleAddressMap[chainId]
+      );
+      setLoadingIsEnabledModule(false);
+      setIsEnabledModule(isEnabled);
+    },
+    [chainId]
+  );
+
+  useEffect(() => {
+    if (selectedSafeAddress) getIsEnabledModule(selectedSafeAddress);
+  }, [getIsEnabledModule, selectedSafeAddress]);
+
   useEffect(() => {
     getSafesByOwner();
   }, [getSafesByOwner]);
+
   const onSelectSafeChange = (value: string) => {
     setSelectedSafeAddress(value);
     getIsEnabledModule(value);
   };
+
   const enableModule = async () => {
     if (!safeSDK) return;
     setLoadingSubmitTransaction(true);
@@ -140,6 +160,7 @@ export const ChainGroup = ({
       setLoadingSubmitTransaction(false);
     }
   };
+
   const disableModule = async () => {
     if (!safeSDK) return;
     setLoadingSubmitTransaction(true);
@@ -156,6 +177,7 @@ export const ChainGroup = ({
       setLoadingSubmitTransaction(false);
     }
   };
+
   return (
     <div className="mt-12 space-y-6 bg-gray-50 p-6 rounded-2xl">
       <div className="rounded-lg w-full">
@@ -201,7 +223,7 @@ export const ChainGroup = ({
                   <SelectContent className=" bg-white">
                     {safesList &&
                       safesList.length > 0 &&
-                      safesList.map(address => (
+                      safesList.map((address) => (
                         <SelectItem key={address} value={address}>
                           {addressShortner(address)}
                         </SelectItem>
