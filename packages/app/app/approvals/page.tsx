@@ -108,6 +108,12 @@ const ChainGroup = ({
   const [selectedSafeAddress, setSelectedSafeAddress] = useState<string>();
   const [isEnabledModule, setIsEnabledModule] = useState<boolean>();
   const [safeSDK, setSafeSDK] = useState<Safe>();
+  const [loadingIsEnabledModule, setLoadingIsEnabledModule] = useState<
+    boolean
+  >();
+  const [loadingSubmitTransaction, setLoadingSubmitTransaction] = useState<
+    boolean
+  >();
 
   const getAllowances = useCallback(async () => {
     const result = await request(queryUrl(queryName), getAllowancesQuery, {
@@ -148,14 +154,18 @@ const ChainGroup = ({
       ethers,
       signerOrProvider: signer,
     });
-    const safeApiKit = new SafeApiKit({
-      txServiceUrl: safesServicesURLMap[chainId],
-      ethAdapter,
-    });
-    const safes: OwnerResponse = await safeApiKit.getSafesByOwner(address);
+    try {
+      const safeApiKit = new SafeApiKit({
+        txServiceUrl: safesServicesURLMap[chainId],
+        ethAdapter,
+      });
+      const safes: OwnerResponse = await safeApiKit.getSafesByOwner(address);
 
-    setSafesList(safes.safes);
-    setSelectedSafeAddress(safes.safes[0]);
+      setSafesList(safes.safes);
+      setSelectedSafeAddress(safes.safes[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }, [address, chainId]);
 
   const getIsEnabledModule = async (address: string) => {
@@ -165,13 +175,14 @@ const ChainGroup = ({
       ethers,
       signerOrProvider: signer,
     });
+    setLoadingIsEnabledModule(true);
     const safeSdk = await Safe.create({
       ethAdapter,
       safeAddress: address,
     });
 
     const isEnabled = await safeSdk.isModuleEnabled(moduleAddressMap[chainId]);
-    console.log(address, isEnabled);
+    setLoadingIsEnabledModule(false);
     setIsEnabledModule(isEnabled);
   };
 
@@ -187,24 +198,28 @@ const ChainGroup = ({
   const enableModule = async () => {
     if (!safeSDK) return;
 
+    setLoadingSubmitTransaction(true);
     const safeTransaction = await safeSDK.createEnableModuleTx(
       moduleAddressMap[chainId]
     );
     const txResponse = await safeSDK.executeTransaction(safeTransaction);
     await txResponse.transactionResponse?.wait();
 
+    setLoadingSubmitTransaction(false);
     setIsEnabledModule(true);
   };
 
   const disableModule = async () => {
     if (!safeSDK) return;
 
+    setLoadingSubmitTransaction(true);
     const safeTransaction = await safeSDK.createDisableModuleTx(
       moduleAddressMap[chainId]
     );
     const txResponse = await safeSDK.executeTransaction(safeTransaction);
     await txResponse.transactionResponse?.wait();
 
+    setLoadingSubmitTransaction(false);
     setIsEnabledModule(false);
   };
 
@@ -246,7 +261,7 @@ const ChainGroup = ({
                   <SelectContent className=" bg-white">
                     {safesList &&
                       safesList.length > 0 &&
-                      safesList.map(address => (
+                      safesList.map((address) => (
                         <SelectItem key={address} value={address}>
                           {addressShortner(address)}
                         </SelectItem>
@@ -255,16 +270,28 @@ const ChainGroup = ({
                 </Select>
                 <button
                   onClick={isEnabledModule ? disableModule : enableModule}
-                  className="py-2 px-4 hover:bg-blue-700 bg-blue-800 text-white rounded-full flex items-center space-x-2"
+                  className={`py-2 px-4 ${
+                    isEnabledModule
+                      ? "hover:bg-gray-300 bg-gray-200 text-gray-800"
+                      : "hover:bg-blue-700 bg-blue-800 text-white"
+                  }  rounded-full flex items-center space-x-2`}
                 >
-                  <SoapIcon />
+                  {!isEnabledModule && <SoapIcon />}
                   {connectedChainId !== chainId ? (
                     <p>Connect to {name}</p>
                   ) : selectedSafeAddress ? (
-                    isEnabledModule ? (
-                      <p>Disable secured approvals</p>
+                    loadingIsEnabledModule ? (
+                      <p>Loading ...</p>
+                    ) : isEnabledModule ? (
+                      loadingSubmitTransaction ? (
+                        <p>Disabling ...</p>
+                      ) : (
+                        <p>Disable Safe Module</p>
+                      )
+                    ) : loadingSubmitTransaction ? (
+                      <p>Enabling ...</p>
                     ) : (
-                      <p>Secure approvals</p>
+                      <p>Enable Safe Module</p>
                     )
                   ) : (
                     <p>Select Safe</p>
